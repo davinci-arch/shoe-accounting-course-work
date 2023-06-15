@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <CustomConsoleLayout/>
+        </Console>
+
+        <RollingFile name="fileAppender" fileName="D:\logs-course-proj\javalog.log"
+                     filePattern="D:\logs-course-proj\javalog-%d{MM-dd}-%i.log.gz">
+
+            <CustomFileLayout/>
+
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+
+            <DefaultRolloverStrategy max="3"/>
+
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="fileAppender"/>
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
