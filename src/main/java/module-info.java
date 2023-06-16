@@ -6,6 +6,7 @@ module com.example.shoeaccountingcoursework {
     requires org.apache.logging.log4j.slf4j;
     requires org.apache.logging.log4j.core;
 
+    
     opens com.example.shoeaccountingcoursework to javafx.fxml;
     exports com.example.shoeaccountingcoursework;
 }

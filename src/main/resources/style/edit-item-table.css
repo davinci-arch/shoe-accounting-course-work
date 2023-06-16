@@ -1,0 +1,68 @@
+
+.edit-container{
+
+-fx-background-color: transparent;
+-fx-border-color: blue;
+-fx-border-radius: 15px;
+-fx-padding: 0px;
+
+}
+.shadow{
+    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+}
+
+.image{
+    -fx-border-radius: 15px;
+    -fx-border-color: #fff;
+}
+
+.edit-container-import-img{
+    -fx-background-color: green;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #fff;
+    -fx-font-size: 13px
+}
+
+.edit-container-import-img:hover{
+    -fx-background-color: red;
+    -fx-text-fill: #000;
+}
+
+.edit-container-prompt-text{
+    -fx-font-size: 14px;
+}
+
+.edit-container-lable{
+    -fx-alignment: CENTER;
+}
+
+.edit-container-btn{
+    -fx-text-fill: #000;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.edit-container-btn:hover{
+    -fx-border-color: blue;
+    -fx-cursor:hand;
+}
+
+.save-btn{
+}
+
+
+.add-btn{
+    
+}
+
+
+.more-btn{
+    -fx-background-color: yellow;
+
+}
+
+
+.remove-btn{
+    -fx-background-color: red;
+    
+}

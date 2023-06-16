@@ -1,0 +1,20 @@
+.menu-containter{
+    -fx-border-color: #000;
+    -fx-background-color:linear-gradient(to left top, #E6FDFF, #CEF6E5);
+}
+
+.menu-text{
+    -fx-font-size: 20px;
+}
+
+.label-menu{
+    -fx-border-color: #000;
+    -fx-font-size: 14px;
+    -fx-background-color: #CBDDFF;
+
+}
+
+.label-item-category{
+    -fx-border-color: #000;
+    -fx-padding: 5px 5px 5px 10px;
+}
