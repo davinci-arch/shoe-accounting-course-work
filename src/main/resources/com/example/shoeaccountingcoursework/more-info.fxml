@@ -15,18 +15,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="1056.0" styleClass="headbar-containter" stylesheets="@../../../style/more-info-style/headbar.css">
          <children>
             <Text layoutX="285.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headbar-text" text="Програмний додаток для ведення обліку взуття" />
-            <Button layoutX="1012.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
+            <Button fx:id="turn_off_btn" layoutX="1012.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
                <font>
                   <Font size="29.0" />
                </font>
                <graphic>
                   <FontAwesomeIconView glyphName="CLOSE" text="" />
+               </graphic>
+            </Button>
+            <Button fx:id="turn_off_btn" layoutX="968.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
+               <font>
+                  <Font size="29.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="MINUS" />
                </graphic>
             </Button>
          </children>
@@ -35,37 +42,37 @@
          <children>
             <AnchorPane layoutX="1.0" layoutY="58.0" prefHeight="378.0" prefWidth="989.0" styleClass="inner-container">
                <children>
-                  <ComboBox layoutX="137.0" layoutY="251.0" prefWidth="150.0" promptText="Категорія">
+                  <ComboBox fx:id="category_choose" layoutX="137.0" layoutY="251.0" prefWidth="150.0" promptText="Категорія">
                      <styleClass>
                         <String fx:value="info-containter-fields" />
                         <String fx:value="info-containter-prompt-field" />
                      </styleClass>
                   </ComboBox>
-                  <TextField layoutX="138.0" layoutY="41.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="type_field" layoutX="138.0" layoutY="41.0" styleClass="info-containter-fields" />
                   <Label layoutX="88.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Тип:" />
-                  <TextField layoutX="137.0" layoutY="93.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="model_field" layoutX="137.0" layoutY="93.0" styleClass="info-containter-fields" />
                   <Label layoutX="76.0" layoutY="97.0" styleClass="info-containter-prompt-field" text="Модель:" />
-                  <TextField layoutX="137.0" layoutY="145.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="brend_field" layoutX="137.0" layoutY="145.0" styleClass="info-containter-fields" />
                   <Label layoutX="81.0" layoutY="149.0" styleClass="info-containter-prompt-field" text="Бренд:" />
-                  <TextField layoutX="138.0" layoutY="196.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="price_field" layoutX="138.0" layoutY="196.0" styleClass="info-containter-fields" />
                   <Label layoutX="86.0" layoutY="200.0" styleClass="info-containter-prompt-field" text="Ціна:" />
-                  <TextField layoutX="381.0" layoutY="41.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="size_btn" layoutX="381.0" layoutY="41.0" styleClass="info-containter-fields" />
                   <Label layoutX="322.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Розмір:" />
-                  <TextField layoutX="381.0" layoutY="93.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="color_btn" layoutX="381.0" layoutY="93.0" styleClass="info-containter-fields" />
                   <Label layoutX="326.0" layoutY="97.0" styleClass="info-containter-prompt-field" text="Колір:" />
-                  <TextField layoutX="381.0" layoutY="145.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="material_btn" layoutX="381.0" layoutY="145.0" styleClass="info-containter-fields" />
                   <Label layoutX="304.0" layoutY="149.0" styleClass="info-containter-prompt-field" text="Матеріал:" />
-                  <TextField layoutX="381.0" layoutY="196.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="sole_btn" layoutX="381.0" layoutY="196.0" styleClass="info-containter-fields" />
                   <Label layoutX="306.0" layoutY="200.0" styleClass="info-containter-prompt-field" text="Підошва:" />
-                  <ComboBox layoutX="380.0" layoutY="251.0" prefWidth="150.0" promptText="Сезон">
+                  <ComboBox fx:id="season_choose" layoutX="380.0" layoutY="251.0" prefWidth="150.0" promptText="Сезон">
                      <styleClass>
                         <String fx:value="info-containter-fields" />
                         <String fx:value="info-containter-prompt-field" />
                      </styleClass>
                   </ComboBox>
-                  <TextField layoutX="640.0" layoutY="40.0" prefHeight="26.0" prefWidth="54.0" styleClass="info-containter-fields" />
+                  <TextField fx:id="weight_btn" layoutX="640.0" layoutY="40.0" prefHeight="26.0" prefWidth="54.0" styleClass="info-containter-fields" />
                   <Label layoutX="552.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Вага (грам):" />
-                  <ComboBox layoutX="565.0" layoutY="251.0" prefWidth="150.0" promptText="Тип застібки">
+                  <ComboBox fx:id="fastern_choose" layoutX="565.0" layoutY="251.0" prefWidth="150.0" promptText="Тип застібки">
                      <styleClass>
                         <String fx:value="info-containter-fields" />
                         <String fx:value="info-containter-prompt-field" />
@@ -73,12 +80,12 @@
                   </ComboBox>
                   <AnchorPane layoutX="776.0" layoutY="19.0" prefHeight="200.0" prefWidth="163.0">
                      <children>
-                        <ImageView fitHeight="165.0" fitWidth="157.0" layoutX="5.0" layoutY="4.0" pickOnBounds="true">
+                        <ImageView fx:id="img_block" fitHeight="165.0" fitWidth="157.0" layoutX="5.0" layoutY="4.0" pickOnBounds="true">
                            <image>
                               <Image url="@../../../images/not-found.png" />
                            </image>
                         </ImageView>
-                        <Button layoutX="1.0" layoutY="174.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="163.0" styleClass="import-img" text="Завантажити">
+                        <Button fx:id="import_img_btn" layoutX="1.0" layoutY="174.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="163.0" styleClass="import-img" text="Завантажити">
                            <graphic>
                               <FontAwesomeIconView glyphName="DOWNLOAD" />
                            </graphic>
@@ -89,7 +96,7 @@
                         <String fx:value="image" />
                      </styleClass>
                   </AnchorPane>
-                  <Button layoutX="630.0" layoutY="337.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
+                  <Button fx:id="save_btn" layoutX="630.0" layoutY="337.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
                      <styleClass>
                         <String fx:value="save-btn" />
                         <String fx:value="event-button" />
@@ -98,7 +105,7 @@
                         <FontAwesomeIconView glyphName="SAVE" />
                      </graphic>
                   </Button>
-                  <Button layoutX="751.0" layoutY="337.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Видалити">
+                  <Button fx:id="delete_btn" layoutX="751.0" layoutY="337.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Видалити">
                      <graphic>
                         <FontAwesomeIconView glyphName="REMOVE" />
                      </graphic>
@@ -107,7 +114,7 @@
                         <String fx:value="event-button" />
                      </styleClass>
                   </Button>
-                  <Button layoutX="873.0" layoutY="337.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Додати">
+                  <Button fx:id="add_btn" layoutX="873.0" layoutY="337.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Додати">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" />
                      </graphic>
@@ -127,7 +134,7 @@
       </AnchorPane>
       <AnchorPane layoutX="31.0" layoutY="534.0" prefHeight="266.0" prefWidth="955.0">
          <children>
-            <Button layoutX="818.0" layoutY="225.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="106.0" text="Детальніше">
+            <Button fx:id="more_btn" disable="true" layoutX="818.0" layoutY="225.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="106.0" text="Детальніше">
                <graphic>
                   <FontAwesomeIconView glyphName="FORWARD" />
                </graphic>
@@ -138,7 +145,7 @@
             </Button>
             <AnchorPane layoutX="2.0" layoutY="36.0" prefHeight="228.0" prefWidth="798.0" styleClass="inner-container">
                <children>
-                  <TableView layoutX="10.0" layoutY="8.0" prefHeight="214.0" prefWidth="787.0" styleClass="table">
+                  <TableView fx:id="data_view" layoutX="10.0" layoutY="8.0" prefHeight="214.0" prefWidth="787.0" styleClass="table">
                      <columns>
                         <TableColumn prefWidth="163.199951171875" text="Категорія" />
                         <TableColumn prefWidth="181.60000610351562" text="Тип" />
