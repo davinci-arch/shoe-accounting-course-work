@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,7 +21,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="799.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="50.0" prefWidth="1056.0" styleClass="headbar-containter" stylesheets="@../../../style/headbar.css">
+      <AnchorPane prefHeight="50.0" prefWidth="1056.0" styleClass="headbar-containter" stylesheets="@../../../style/storage-style/headbar.css">
          <children>
             <Text layoutX="285.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headbar-text" text="Програмний додаток для ведення обліку взуття" />
             <Button layoutX="1012.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
@@ -32,7 +33,7 @@
                </graphic>
             </Button>
          </children></AnchorPane>
-      <AnchorPane layoutY="50.0" prefHeight="750.0" prefWidth="206.0" styleClass="menu-containter" stylesheets="@../../../style/menu-style.css">
+      <AnchorPane layoutY="50.0" prefHeight="750.0" prefWidth="206.0" styleClass="menu-containter" stylesheets="@../../../style/storage-style/menu-style.css">
          <children>
             <Text layoutX="75.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="menu-text" text="Меню" />
             <Label layoutX="2.0" layoutY="46.0" prefHeight="22.0" prefWidth="202.0" styleClass="label-menu" text="   Категорії">
@@ -44,7 +45,7 @@
                <children>
                   <HBox prefHeight="28.0" prefWidth="202.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Чоловіче взуття" />
+                        <CheckBox mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" styleClass="checkbox" text="Чоловіче взуття" />
                         <Label text="(1123)" />
                      </children>
                   </HBox>
@@ -97,7 +98,7 @@
             <Slider layoutX="8.0" layoutY="341.0" max="50000.0" prefHeight="14.0" prefWidth="189.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="224.0" layoutY="94.0" prefHeight="403.0" prefWidth="817.0" stylesheets="@../../../style/table-view.css">
+      <AnchorPane layoutX="224.0" layoutY="94.0" prefHeight="403.0" prefWidth="817.0" stylesheets="@../../../style/storage-style/table-view.css">
          <styleClass>
             <String fx:value="table-container" />
             <String fx:value="shadow" />
@@ -119,7 +120,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="223.0" layoutY="505.0" prefHeight="258.0" prefWidth="818.0" stylesheets="@../../../style/edit-item-table.css">
+      <AnchorPane layoutX="223.0" layoutY="505.0" prefHeight="258.0" prefWidth="818.0" stylesheets="@../../../style/storage-style/edit-item-table.css">
          <styleClass>
             <String fx:value="edit-container" />
             <String fx:value="shadow" />
@@ -131,7 +132,10 @@
                   <String fx:value="image" />
                </styleClass>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="141.0" fitWidth="138.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../../images/not-found.png" />
+                     </image></ImageView>
                   <Button layoutX="2.0" layoutY="152.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="138.0" styleClass="edit-container-import-img" text="Завантажити">
                      <graphic>
                         <FontAwesomeIconView glyphName="DOWNLOAD" />

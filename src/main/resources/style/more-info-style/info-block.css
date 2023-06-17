@@ -4,7 +4,7 @@
 
 .info-containter{
     -fx-border-radius: 10px;
-    -fx-border-color: #000;
+    -fx-border-color: #fff;
     -fx-background-color: transparent;
 }
 
@@ -69,7 +69,6 @@
 
 .remove-btn{
     -fx-background-color: red;
-    
 }
 
 .more-btn{
