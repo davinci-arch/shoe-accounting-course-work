@@ -91,7 +91,12 @@ public class Slippers extends FootwearAbstract{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Slippers slippers = (Slippers) o;
-        return size == slippers.size && Double.compare(slippers.weight, weight) == 0 && Objects.equals(color, slippers.color) && Objects.equals(material, slippers.material) && Objects.equals(sole, slippers.sole) && typeOfFastener == slippers.typeOfFastener;
+        return size == slippers.size &&
+                Double.compare(slippers.weight, weight) == 0 &&
+                Objects.equals(color, slippers.color) &&
+                Objects.equals(material, slippers.material) &&
+                Objects.equals(sole, slippers.sole) &&
+                typeOfFastener == slippers.typeOfFastener;
     }
 
     @Override

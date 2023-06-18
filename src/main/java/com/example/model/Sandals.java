@@ -92,7 +92,12 @@ public class Sandals extends FootwearAbstract{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sandals sandals = (Sandals) o;
-        return size == sandals.size && Double.compare(sandals.weight, weight) == 0 && Objects.equals(color, sandals.color) && Objects.equals(material, sandals.material) && Objects.equals(sole, sandals.sole) && typeOfFastener == sandals.typeOfFastener;
+        return size == sandals.size &&
+                Double.compare(sandals.weight, weight) == 0 &&
+                Objects.equals(color, sandals.color) &&
+                Objects.equals(material, sandals.material) &&
+                Objects.equals(sole, sandals.sole) &&
+                typeOfFastener == sandals.typeOfFastener;
     }
 
     @Override

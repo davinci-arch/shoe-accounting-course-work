@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SerializationServiceReadTest {
@@ -44,6 +45,7 @@ public class SerializationServiceReadTest {
             FootwearDTO dto = FootwearDTO.getDTO(foot);
 
             List<FootwearAbstract> orDefault = data.getOrDefault(dto, new ArrayList<>());
+            orDefault.add(foot);
 
             data.put(dto, orDefault);
         }
@@ -55,83 +57,54 @@ public class SerializationServiceReadTest {
     void readObjectEqualsKey() {
         HashMap<FootwearDTO, List<FootwearAbstract>> footwearDTOListHashMap = saveService.readObject();
 
-        boolean res = false;
-
         for (FootwearDTO dto : footwearDTOListHashMap.keySet()) {
 
-            if (data.containsKey(dto)) {
-                res = true;
-            } else {
-                res = false;
-            }
+            assertTrue(data.containsKey(dto));
+
         }
 
-        assertTrue(res);
     }
 
     @Test
     @Order(2)
-    void readObjectEqualValues() {
-
-        HashMap<FootwearDTO, List<FootwearAbstract>> footwearDTOListHashMap = saveService.readObject();
-
-        boolean res = false;
-
-        for (List<FootwearAbstract> lst : footwearDTOListHashMap.values()) {
-
-            for (int i = 0; i < lst.size(); i++) {
-
-                if (footObjects.get(i).equals(lst.get(i))) {
-                    res = true;
-                } else {
-                    res = false;
-                }
-            }
-
-        }
-    }
-
-    @Test
-    @Order(3)
     void readObjectEqualValuesBySubType() {
 
         HashMap<FootwearDTO, List<FootwearAbstract>> footwearDTOListHashMap = saveService.readObject();
 
-        Collection<List<FootwearAbstract>> values = data.values();
+        for (FootwearAbstract foot : footObjects) {
 
-        boolean res = false;
+            FootwearDTO dto = FootwearDTO.getDTO(foot);
 
+            List<FootwearAbstract> footwearAbstracts = footwearDTOListHashMap.get(dto);
 
+            for (int i = 0; i < footwearAbstracts.size(); i++) {
 
-        for (Map.Entry<FootwearDTO, List<FootwearAbstract>> lst : footwearDTOListHashMap.entrySet()) {
+                FootwearAbstract ft = footwearAbstracts.get(i);
 
-            for (FootwearAbstract ft : lst.getValue()) {
+                if (ft instanceof Slippers && foot instanceof Slippers) {
 
-                if (ft instanceof Slippers) {
+                    assertEquals((Slippers)ft, (Slippers)foot);
 
-                    res = equalObj((Slippers)ft, values);
+                } else if (ft instanceof Boots && foot instanceof Boots) {
 
-                } else if (ft instanceof Shoes) {
+                    assertEquals((Boots)ft, (Boots)foot);
 
-                    res = equalObj((Shoes)ft, values);
+                } else if (ft instanceof Sandals && foot instanceof Sandals) {
 
+                    assertEquals((Sandals)ft, (Sandals)foot);
 
-                } else if (ft instanceof Sandals) {
+                } else if (ft instanceof Shoes && foot instanceof Shoes) {
 
-                    res = equalObj((Sandals)ft, values);
-
-                } else if (ft instanceof Boots) {
-
-                    res = equalObj((Boots)ft, values);
+                    assertEquals((Shoes)ft, (Shoes)foot);
 
                 }
+
             }
 
         }
+
+
     }
 
-    private boolean equalObj(FootwearAbstract ft, Collection<List<FootwearAbstract>> values) {
 
-        return values.contains(ft);
-    }
 }

@@ -93,7 +93,12 @@ public class Shoes extends FootwearAbstract{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shoes shoes = (Shoes) o;
-        return size == shoes.size && Double.compare(shoes.weight, weight) == 0 && Objects.equals(color, shoes.color) && Objects.equals(material, shoes.material) && Objects.equals(sole, shoes.sole) && typeOfFastener == shoes.typeOfFastener;
+        return size == shoes.size &&
+                Double.compare(shoes.weight, weight) == 0 &&
+                Objects.equals(color, shoes.color) &&
+                Objects.equals(material, shoes.material) &&
+                Objects.equals(sole, shoes.sole) &&
+                typeOfFastener == shoes.typeOfFastener;
     }
 
     @Override

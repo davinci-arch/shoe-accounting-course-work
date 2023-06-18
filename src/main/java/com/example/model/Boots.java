@@ -91,7 +91,12 @@ public class Boots extends FootwearAbstract{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Boots boots = (Boots) o;
-        return size == boots.size && Double.compare(boots.weight, weight) == 0 && Objects.equals(color, boots.color) && Objects.equals(material, boots.material) && Objects.equals(sole, boots.sole) && typeOfFastener == boots.typeOfFastener;
+        return size == boots.size &&
+                Double.compare(boots.weight, weight) == 0 &&
+                Objects.equals(color, boots.color) &&
+                Objects.equals(material, boots.material) &&
+                Objects.equals(sole, boots.sole) &&
+                typeOfFastener == boots.typeOfFastener;
     }
 
     @Override
