@@ -6,36 +6,36 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public abstract class FootwearAbstract implements Serializable {
-    private String category;
-    private String type;
+    private Category category;
+    private TypeFootwear type;
     private String model;
     private String brand;
     private BigDecimal price;
-    private String season;
+    private Seasons season;
 
     public FootwearAbstract(Category category, TypeFootwear type, String model, String brand, BigDecimal price, Seasons season) {
-        this.category = category.getCategory();
-        this.type = type.getType();
+        this.category = category;
+        this.type = type;
         this.model = model;
         this.brand = brand;
         this.price = price;
-        this.season = season.getSeasonName();
+        this.season = season;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
     public void setCategory(Category category) {
-        this.category = category.getCategory();
+        this.category = category;
     }
 
-    public String getType() {
+    public TypeFootwear getType() {
         return type;
     }
 
     public void setType(TypeFootwear type) {
-        this.type = type.getType();
+        this.type = type;
     }
 
     public String getModel() {
@@ -62,12 +62,12 @@ public abstract class FootwearAbstract implements Serializable {
         this.price = price;
     }
 
-    public String getSeason() {
+    public Seasons getSeason() {
         return season;
     }
 
     public void setSeason(Seasons season) {
-        this.season = season.getSeasonName();
+        this.season = season;
     }
 
     @Override

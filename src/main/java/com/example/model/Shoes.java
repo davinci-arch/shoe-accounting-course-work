@@ -11,7 +11,7 @@ public class Shoes extends FootwearAbstract{
     private String material;
     private String sole;
     private double weight;
-    private String typeOfFastener;
+    private Fastener typeOfFastener;
 
 
     public Shoes(Category category, TypeFootwear type, String model,
@@ -24,7 +24,7 @@ public class Shoes extends FootwearAbstract{
         this.material = material;
         this.sole = sole;
         this.weight = weight;
-        this.typeOfFastener = typeOfFastener.getTypeFastener();
+        this.typeOfFastener = typeOfFastener;
     }
 
     public int getSize() {
@@ -67,12 +67,12 @@ public class Shoes extends FootwearAbstract{
         this.weight = weight;
     }
 
-    public String getTypeOfFastener() {
+    public Fastener getTypeOfFastener() {
         return typeOfFastener;
     }
 
     public void setTypeOfFastener(Fastener typeOfFastener) {
-        this.typeOfFastener = typeOfFastener.getTypeFastener();
+        this.typeOfFastener = typeOfFastener;
     }
 
     @Override

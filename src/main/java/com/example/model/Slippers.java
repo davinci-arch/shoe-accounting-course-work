@@ -11,7 +11,7 @@ public class Slippers extends FootwearAbstract{
     private String material;
     private String sole;
     private double weight;
-    private String typeOfFastener;
+    private Fastener typeOfFastener;
     public Slippers(Category category, TypeFootwear type, String model,
                     String brand, BigDecimal price, Seasons season,
                     int size, String color, String material, String sole,
@@ -22,7 +22,7 @@ public class Slippers extends FootwearAbstract{
         this.material = material;
         this.sole = sole;
         this.weight = weight;
-        this.typeOfFastener = typeOfFastener.getTypeFastener();
+        this.typeOfFastener = typeOfFastener;
     }
 
     public int getSize() {
@@ -65,12 +65,12 @@ public class Slippers extends FootwearAbstract{
         this.weight = weight;
     }
 
-    public String getTypeOfFastener() {
+    public Fastener getTypeOfFastener() {
         return typeOfFastener;
     }
 
     public void setTypeOfFastener(Fastener typeOfFastener) {
-        this.typeOfFastener = typeOfFastener.getTypeFastener();
+        this.typeOfFastener = typeOfFastener;
     }
 
     @Override
