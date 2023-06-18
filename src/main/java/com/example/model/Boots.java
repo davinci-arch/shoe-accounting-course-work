@@ -76,7 +76,7 @@ public class Boots extends FootwearAbstract{
 
     @Override
     public String toString() {
-        return "Boos{" +
+        return "Boots{" +
                 "size=" + size +
                 ", color='" + color + '\'' +
                 ", material='" + material + '\'' +
