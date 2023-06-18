@@ -3,6 +3,7 @@ package com.example.model;
 import com.example.model.types.TypeFootwear;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Slippers extends FootwearAbstract{
 
@@ -83,5 +84,18 @@ public class Slippers extends FootwearAbstract{
                 ", weight=" + weight +
                 ", typeOfFastener='" + typeOfFastener + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Slippers slippers = (Slippers) o;
+        return size == slippers.size && Double.compare(slippers.weight, weight) == 0 && Objects.equals(color, slippers.color) && Objects.equals(material, slippers.material) && Objects.equals(sole, slippers.sole) && typeOfFastener == slippers.typeOfFastener;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(size, color, material, sole, weight, typeOfFastener);
     }
 }

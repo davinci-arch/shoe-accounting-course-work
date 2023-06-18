@@ -1,6 +1,8 @@
 package com.example.model.types;
 
-public interface TypeFootwear {
+import java.io.Serializable;
+
+public interface TypeFootwear extends Serializable {
 
     String getType();
 }

@@ -1,6 +1,8 @@
 package com.example.model;
 
-public enum Category {
+import java.io.Serializable;
+
+public enum Category implements Serializable {
     MALE("Чоловічі"), FEMALE("Жіночі"),
     CHILD("Дитячі"), UNISEX("Унісекс"),
     ORTHOPEDIC("Ортопедичне"), HOMELY("Домашнє");

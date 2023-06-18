@@ -1,6 +1,8 @@
 package com.example.model;
 
-public enum Seasons {
+import java.io.Serializable;
+
+public enum Seasons implements Serializable {
     SUMMER("Літнє"), SPRING_AUTUMN("Весняно-осіннє"), WINTER("Зимове");
 
     private final String seasonName;
