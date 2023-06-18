@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -92,5 +89,49 @@ public class SerializationServiceReadTest {
             }
 
         }
+    }
+
+    @Test
+    @Order(3)
+    void readObjectEqualValuesBySubType() {
+
+        HashMap<FootwearDTO, List<FootwearAbstract>> footwearDTOListHashMap = saveService.readObject();
+
+        Collection<List<FootwearAbstract>> values = data.values();
+
+        boolean res = false;
+
+
+
+        for (Map.Entry<FootwearDTO, List<FootwearAbstract>> lst : footwearDTOListHashMap.entrySet()) {
+
+            for (FootwearAbstract ft : lst.getValue()) {
+
+                if (ft instanceof Slippers) {
+
+                    res = equalObj((Slippers)ft, values);
+
+                } else if (ft instanceof Shoes) {
+
+                    res = equalObj((Shoes)ft, values);
+
+
+                } else if (ft instanceof Sandals) {
+
+                    res = equalObj((Sandals)ft, values);
+
+                } else if (ft instanceof Boots) {
+
+                    res = equalObj((Boots)ft, values);
+
+                }
+            }
+
+        }
+    }
+
+    private boolean equalObj(FootwearAbstract ft, Collection<List<FootwearAbstract>> values) {
+
+        return values.contains(ft);
     }
 }

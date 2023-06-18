@@ -1,4 +1,4 @@
-package com.example.shoeaccountingcoursework;
+package com.example.shoeaccountingcoursework.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
