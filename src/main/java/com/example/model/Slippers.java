@@ -96,7 +96,8 @@ public class Slippers extends FootwearAbstract{
                 Objects.equals(color, slippers.color) &&
                 Objects.equals(material, slippers.material) &&
                 Objects.equals(sole, slippers.sole) &&
-                typeOfFastener == slippers.typeOfFastener;
+                typeOfFastener == slippers.typeOfFastener &&
+                super.equals(o);
     }
 
     @Override

@@ -98,7 +98,8 @@ public class Shoes extends FootwearAbstract{
                 Objects.equals(color, shoes.color) &&
                 Objects.equals(material, shoes.material) &&
                 Objects.equals(sole, shoes.sole) &&
-                typeOfFastener == shoes.typeOfFastener;
+                typeOfFastener == shoes.typeOfFastener &&
+                super.equals(o);
     }
 
     @Override

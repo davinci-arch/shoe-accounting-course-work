@@ -97,7 +97,8 @@ public class Sandals extends FootwearAbstract{
                 Objects.equals(color, sandals.color) &&
                 Objects.equals(material, sandals.material) &&
                 Objects.equals(sole, sandals.sole) &&
-                typeOfFastener == sandals.typeOfFastener;
+                typeOfFastener == sandals.typeOfFastener &&
+                super.equals(o);
     }
 
     @Override

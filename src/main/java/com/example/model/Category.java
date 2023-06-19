@@ -7,7 +7,7 @@ public enum Category implements Serializable {
     CHILD("Дитячі"), UNISEX("Унісекс"),
     ORTHOPEDIC("Ортопедичне"), HOMELY("Домашнє");
 
-    private final String category;
+    private String category;
 
     Category(String category) {
         this.category = category;
@@ -16,4 +16,9 @@ public enum Category implements Serializable {
     public String getCategory() {
         return category;
     }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }
+
