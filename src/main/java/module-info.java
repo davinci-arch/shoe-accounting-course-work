@@ -7,7 +7,10 @@ module com.example.shoeaccountingcoursework {
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
     requires tornadofx;
+    requires java.sql;
     requires org.slf4j;
+    requires mysql.connector.j;
+    requires java.naming;
 
     opens com.example.shoeaccountingcoursework to javafx.fxml;
     exports com.example.shoeaccountingcoursework;
