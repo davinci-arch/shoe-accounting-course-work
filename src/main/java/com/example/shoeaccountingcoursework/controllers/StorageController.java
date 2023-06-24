@@ -2,14 +2,15 @@ package com.example.shoeaccountingcoursework.controllers;
 
 import com.example.dao.repository.generalrepo.ModelTablesRepository;
 import com.example.model.Category;
+import com.example.model.FootwearAbstract;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -24,10 +25,16 @@ public class StorageController implements Initializable {
     private Button add_btn;
 
     @FXML
+    private TableColumn<FootwearAbstract, String> brend_column;
+
+    @FXML
     private TextField brend_field;
 
     @FXML
     private ComboBox<?> category_choose;
+
+    @FXML
+    private TableColumn<?, ?> category_column;
 
     @FXML
     private CheckBox check_category_1;
@@ -72,7 +79,7 @@ public class StorageController implements Initializable {
     private Button confirm_slider_btn;
 
     @FXML
-    private TableView<?> data_view;
+    private TableView<FootwearAbstract> data_view;
 
     @FXML
     private Button delete_btn;
@@ -90,10 +97,16 @@ public class StorageController implements Initializable {
     private TextField low_bound_slider;
 
     @FXML
+    private TableColumn<FootwearAbstract, String> model_column;
+
+    @FXML
     private TextField model_field;
 
     @FXML
     private Button more_btn;
+
+    @FXML
+    private TableColumn<FootwearAbstract, Integer> price_column;
 
     @FXML
     private TextField price_field;
@@ -111,10 +124,14 @@ public class StorageController implements Initializable {
     private Button turn_off_btn;
 
     @FXML
+    private TableColumn<FootwearAbstract, String> type_column;
+
+    @FXML
     private TextField type_field;
 
     private ModelTablesRepository model = new ModelTablesRepository();
 
+    private ObservableList<FootwearAbstract> data = FXCollections.observableArrayList();
     @FXML
     void changeRangeSlider(MouseEvent event) {
         low_bound_slider.setText(String.valueOf((int)slider.getLowValue()));
@@ -152,6 +169,23 @@ public class StorageController implements Initializable {
         setDefaultSliderBounds();
 
         initCountOfCategory();
+
+        initDataTable();
+    }
+
+    private void initDataTable() {
+
+        data.addAll(model.getAllItems());
+
+        brend_column.setCellValueFactory(new PropertyValueFactory<>("brand"));
+        category_column.setCellValueFactory(new PropertyValueFactory<>("category"));
+        model_column.setCellValueFactory(new PropertyValueFactory<>("model"));
+        price_column.setCellValueFactory(new PropertyValueFactory<>("price"));
+        type_column.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+
+
+        data_view.setItems(data);
     }
 
     private void initCountOfCategory() {
