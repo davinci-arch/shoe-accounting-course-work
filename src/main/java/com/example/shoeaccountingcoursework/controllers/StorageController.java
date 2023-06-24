@@ -24,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.controlsfx.control.RangeSlider;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -151,7 +152,21 @@ public class StorageController implements Initializable {
 
     @FXML
     void confirmRangePrice(MouseEvent event) {
+        FilteredList<FootwearAbstract> filteredList = new FilteredList<>(data, (foot) -> betweenPrice(foot.getPrice()));
 
+        SortedList<FootwearAbstract> sortedList = new SortedList<>(filteredList);
+
+        sortedList.comparatorProperty().bind(data_view.comparatorProperty());
+        data_view.setItems(sortedList);
+    }
+
+    private boolean betweenPrice(BigDecimal price) {
+
+        if (price.doubleValue() >= slider.getLowValue() && price.doubleValue() <= slider.getHighValue()) {
+            return true;
+        }
+
+        return false;
     }
 
     @FXML
