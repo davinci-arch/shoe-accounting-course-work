@@ -1,11 +1,19 @@
 package com.example.shoeaccountingcoursework.controllers;
 
+import com.example.dao.repository.ConvertorEnum;
 import com.example.dao.repository.generalrepo.ModelTablesRepository;
 import com.example.model.Category;
 import com.example.model.FootwearAbstract;
+import com.example.model.types.TypeFootwear;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +25,9 @@ import javafx.scene.input.MouseEvent;
 import org.controlsfx.control.RangeSlider;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class StorageController implements Initializable {
 
@@ -31,10 +41,10 @@ public class StorageController implements Initializable {
     private TextField brend_field;
 
     @FXML
-    private ComboBox<?> category_choose;
+    private ComboBox<String> category_choose;
 
     @FXML
-    private TableColumn<?, ?> category_column;
+    private TableColumn<FootwearAbstract, String> category_column;
 
     @FXML
     private CheckBox check_category_1;
@@ -132,10 +142,11 @@ public class StorageController implements Initializable {
     private ModelTablesRepository model = new ModelTablesRepository();
 
     private ObservableList<FootwearAbstract> data = FXCollections.observableArrayList();
+
     @FXML
     void changeRangeSlider(MouseEvent event) {
-        low_bound_slider.setText(String.valueOf((int)slider.getLowValue()));
-        high_bound_slider.setText(String.valueOf((int)slider.getHighValue()));
+        low_bound_slider.setText(String.valueOf((int) slider.getLowValue()));
+        high_bound_slider.setText(String.valueOf((int) slider.getHighValue()));
     }
 
     @FXML
@@ -146,6 +157,47 @@ public class StorageController implements Initializable {
     @FXML
     void filterDataInTable(KeyEvent event) {
 
+
+        FilteredList<FootwearAbstract> filteredList = new FilteredList<>(data, (foot) -> containsKeys(foot.getModel(),
+                search_field.getText()));
+
+        SortedList<FootwearAbstract> sortedList = new SortedList<>(filteredList);
+
+        sortedList.comparatorProperty().bind(data_view.comparatorProperty());
+        data_view.setItems(sortedList);
+    }
+
+    private boolean containsKeys(String model, String text) {
+
+        int i = 0;
+
+        while (i < model.length() && i < text.length()) {
+
+            if (!String.valueOf(model.charAt(i)).equalsIgnoreCase(String.valueOf(text.charAt(i)))) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+
+    @FXML
+    private void resetField() {
+        type_field.setText("");
+        type_field.setDisable(true);
+        model_field.setText("");
+        model_field.setDisable(true);
+        brend_field.setText("");
+        brend_field.setDisable(true);
+        price_field.setText("");
+        price_field.setDisable(true);
+        category_choose.setValue("Категрія");
+        category_choose.setPromptText("Категорія");
+        category_choose.setDisable(true);
+        import_img_btn.setDisable(true);
+        save_btn.setDisable(true);
+        more_btn.setDisable(true);
+        delete_btn.setDisable(true);
     }
 
     @FXML
@@ -163,6 +215,31 @@ public class StorageController implements Initializable {
 
     }
 
+    @FXML
+    void undisabledSelect(MouseEvent event) {
+
+        import_img_btn.setDisable(false);
+        save_btn.setDisable(false);
+        more_btn.setDisable(false);
+        delete_btn.setDisable(false);
+        brend_field.setDisable(false);
+        model_field.setDisable(false);
+        price_field.setDisable(false);
+        type_field.setDisable(false);
+        category_choose.setDisable(false);
+
+    }
+
+    private void setSelectedData(int currentIndex) {
+        FootwearAbstract footwearAbstract = data.get(currentIndex);
+
+        type_field.setText(footwearAbstract.getType().getType());
+        model_field.setText(footwearAbstract.getModel());
+        brend_field.setText(footwearAbstract.getBrand());
+        price_field.setText(footwearAbstract.getPrice().toString());
+        category_choose.setValue(footwearAbstract.getCategory().getCategory());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -171,6 +248,15 @@ public class StorageController implements Initializable {
         initCountOfCategory();
 
         initDataTable();
+
+        initCategory();
+
+        data_view.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
+            int selectedIndex = data_view.getSelectionModel().getSelectedIndex();
+
+            setSelectedData(selectedIndex);
+        });
+
     }
 
     private void initDataTable() {
@@ -183,9 +269,13 @@ public class StorageController implements Initializable {
         price_column.setCellValueFactory(new PropertyValueFactory<>("price"));
         type_column.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-
-
         data_view.setItems(data);
+    }
+
+    private void initCategory() {
+        for (Category s : Category.values()) {
+            category_choose.getItems().add(s.getCategory());
+        }
     }
 
     private void initCountOfCategory() {
@@ -212,7 +302,8 @@ public class StorageController implements Initializable {
         slider.setLowValue(slider.getMin());
         slider.setHighValue(slider.getMax());
 
-        high_bound_slider.setText(String.valueOf((int)slider.getMax()));
-        low_bound_slider.setText(String.valueOf((int)slider.getMin()));
+        high_bound_slider.setText(String.valueOf((int) slider.getMax()));
+        low_bound_slider.setText(String.valueOf((int) slider.getMin()));
     }
+
 }
