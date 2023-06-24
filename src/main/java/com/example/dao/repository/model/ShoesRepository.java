@@ -1,8 +1,10 @@
-package com.example.dao.repository;
+package com.example.dao.repository.model;
 
 import com.example.dao.poolconnection.PoolConnection;
 import com.example.dao.poolconnection.PoolConnectionSingleton;
+import com.example.dao.repository.ConvertorEnum;
 import com.example.model.*;
+import com.example.model.types.ShoesType;
 import com.example.model.types.TypeFootwear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +58,9 @@ public class ShoesRepository implements Repository {
         return footwear;
     }
 
-    private FootwearAbstract mapFootwear(ResultSet resultSet) throws SQLException {
+    public static FootwearAbstract mapFootwear(ResultSet resultSet) throws SQLException {
         return new Shoes(ConvertorEnum.getCategory(resultSet.getString("Category")),
-                ConvertorEnum.getType(resultSet.getString("type")),
+                ConvertorEnum.getType(resultSet.getString("type"), ShoesType.values()),
                 resultSet.getString("model"),
                 resultSet.getString("brand"),
                 BigDecimal.valueOf(Long.parseLong(resultSet.getString("price"))),

@@ -16,4 +16,10 @@ public enum SlippersType implements TypeFootwear{
     public String getType() {
         return type;
     }
+
+
+    @Override
+    public String toString() {
+        return getType();
+    }
 }

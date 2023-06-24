@@ -1,4 +1,4 @@
-package com.example.dao.repository;
+package com.example.dao.repository.model;
 
 import com.example.model.Category;
 import com.example.model.FootwearAbstract;

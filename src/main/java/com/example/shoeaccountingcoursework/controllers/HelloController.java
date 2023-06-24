@@ -58,10 +58,6 @@ public class HelloController implements Initializable {
             threads.shutdown();
         }
 
-
-
-
-
     }
 
 

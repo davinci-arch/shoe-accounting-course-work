@@ -1,8 +1,10 @@
-package com.example.dao.repository;
+package com.example.dao.repository.model;
 
 import com.example.dao.poolconnection.PoolConnection;
 import com.example.dao.poolconnection.PoolConnectionSingleton;
+import com.example.dao.repository.ConvertorEnum;
 import com.example.model.*;
+import com.example.model.types.SandalsType;
 import com.example.model.types.TypeFootwear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SlippersRepository implements Repository {
+public class SandalsRepository implements Repository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SlippersRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SandalsRepository.class);
 
     private PoolConnection pool;
 
-    public SlippersRepository() {
+    public SandalsRepository() {
 
         try {
             pool = PoolConnectionSingleton.getInstance();
@@ -32,7 +34,7 @@ public class SlippersRepository implements Repository {
     @Override
     public Optional<FootwearAbstract> getFootwearById(Long id) {
 
-        String query = "SELECT * FROM slippers WHERE id_footwear = " + id;
+        String query = "SELECT * FROM sandals WHERE id_footwear = " + id;
 
         Optional<FootwearAbstract> footwear = Optional.empty();
 
@@ -56,9 +58,9 @@ public class SlippersRepository implements Repository {
         return footwear;
     }
 
-    private FootwearAbstract mapFootwear(ResultSet resultSet) throws SQLException {
-        return new Slippers(ConvertorEnum.getCategory(resultSet.getString("Category")),
-                ConvertorEnum.getType(resultSet.getString("type")),
+    public static FootwearAbstract mapFootwear(ResultSet resultSet) throws SQLException {
+        return new Sandals(ConvertorEnum.getCategory(resultSet.getString("Category")),
+                ConvertorEnum.getType(resultSet.getString("type"), SandalsType.values()),
                 resultSet.getString("model"),
                 resultSet.getString("brand"),
                 BigDecimal.valueOf(Long.parseLong(resultSet.getString("price"))),
@@ -74,7 +76,7 @@ public class SlippersRepository implements Repository {
 
     @Override
     public List<FootwearAbstract> getFootwearByCategory(Category category) {
-        String query = "SELECT * FROM slippers WHERE category = '" + category.getCategory() + "'";
+        String query = "SELECT * FROM sandals WHERE category = '" + category.getCategory() + "'";
 
         List<FootwearAbstract> footwear = new ArrayList<>();
 
@@ -100,7 +102,7 @@ public class SlippersRepository implements Repository {
 
     @Override
     public List<FootwearAbstract> getFootwearByType(TypeFootwear type) {
-        String query = "SELECT * FROM slippers WHERE type = '" + type.getType() + "'";
+        String query = "SELECT * FROM sandals WHERE type = '" + type.getType() + "'";
 
         List<FootwearAbstract> footwear = new ArrayList<>();
 
@@ -126,7 +128,7 @@ public class SlippersRepository implements Repository {
 
     @Override
     public void save(FootwearAbstract footwear) {
-        String query = "INSERT INTO slippers(category, type, model, brand, price," +
+        String query = "INSERT INTO sandals(category, type, model, brand, price," +
                 " season, size, color, material, sole, weight, typeOfFastener) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -141,13 +143,13 @@ public class SlippersRepository implements Repository {
             preparedStatement.setString(5, footwear.getPrice().toString());
             preparedStatement.setString(6, footwear.getSeason().getSeasonName());
 
-            if (footwear instanceof Slippers) {
-                preparedStatement.setInt(7, ((Slippers) footwear).getSize());
-                preparedStatement.setString(8, ((Slippers) footwear).getColor());
-                preparedStatement.setString(9, ((Slippers) footwear).getMaterial());
-                preparedStatement.setString(10, ((Slippers) footwear).getSole());
-                preparedStatement.setDouble(11, ((Slippers) footwear).getWeight());
-                preparedStatement.setString(12, ((Slippers) footwear).getTypeOfFastener().getTypeFastener());
+            if (footwear instanceof Sandals) {
+                preparedStatement.setInt(7, ((Sandals) footwear).getSize());
+                preparedStatement.setString(8, ((Sandals) footwear).getColor());
+                preparedStatement.setString(9, ((Sandals) footwear).getMaterial());
+                preparedStatement.setString(10, ((Sandals) footwear).getSole());
+                preparedStatement.setDouble(11, ((Sandals) footwear).getWeight());
+                preparedStatement.setString(12, ((Sandals) footwear).getTypeOfFastener().getTypeFastener());
 
             }
 

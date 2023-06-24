@@ -1,8 +1,6 @@
 package com.example.dao.repository;
 
-import com.example.model.Category;
-import com.example.model.Fastener;
-import com.example.model.Seasons;
+import com.example.model.*;
 import com.example.model.types.SlippersType;
 import com.example.model.types.TypeFootwear;
 import org.slf4j.Logger;
@@ -12,8 +10,9 @@ public class ConvertorEnum {
 
     private final static Logger LOG = LoggerFactory.getLogger(ConvertorEnum.class);
 
-    public static TypeFootwear getType(String type) {
-        for (TypeFootwear c : SlippersType.values()) {
+    public static TypeFootwear getType(String type, TypeFootwear[] types) {
+
+        for (TypeFootwear c : types) {
             if (c.getType().equals(type)) {
                 return c;
             }
