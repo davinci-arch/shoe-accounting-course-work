@@ -1,21 +1,13 @@
 package com.example.shoeaccountingcoursework.controllers;
 
-import com.example.dao.repository.ConvertorEnum;
 import com.example.dao.repository.generalrepo.ModelTablesRepository;
 import com.example.model.Category;
 import com.example.model.FootwearAbstract;
-import com.example.model.types.TypeFootwear;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,9 +18,10 @@ import org.controlsfx.control.RangeSlider;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 public class StorageController implements Initializable {
 
@@ -144,6 +137,7 @@ public class StorageController implements Initializable {
 
     private ObservableList<FootwearAbstract> data = FXCollections.observableArrayList();
 
+    private FilterBuilder filterBuilder = new FilterBuilder();
     @FXML
     void changeRangeSlider(MouseEvent event) {
         low_bound_slider.setText(String.valueOf((int) slider.getLowValue()));
@@ -152,29 +146,27 @@ public class StorageController implements Initializable {
 
     @FXML
     void confirmRangePrice(MouseEvent event) {
-        FilteredList<FootwearAbstract> filteredList = new FilteredList<>(data, (foot) -> betweenPrice(foot.getPrice()));
 
-        SortedList<FootwearAbstract> sortedList = new SortedList<>(filteredList);
+        filterBuilder.addBoundsPrice((i) -> i >= (int)slider.getLowValue() && i <= (int)slider.getHighValue());
 
-        sortedList.comparatorProperty().bind(data_view.comparatorProperty());
-        data_view.setItems(sortedList);
-    }
-
-    private boolean betweenPrice(BigDecimal price) {
-
-        if (price.doubleValue() >= slider.getLowValue() && price.doubleValue() <= slider.getHighValue()) {
-            return true;
-        }
-
-        return false;
+        filterDataTableView();
     }
 
     @FXML
-    void filterDataInTable(KeyEvent event) {
+    void searchByModel(KeyEvent event) {
 
+        filterBuilder.addSearchText(search_field.getText());
 
-        FilteredList<FootwearAbstract> filteredList = new FilteredList<>(data, (foot) -> containsKeys(foot.getModel(),
-                search_field.getText()));
+        filterDataTableView();
+    }
+
+    private void filterDataTableView() {
+
+        FilteredList<FootwearAbstract> filteredList = new FilteredList<>(data, (foot) -> filterBuilder.getPredicate(
+                foot.getPrice().intValue(),
+                foot.getModel(),
+                foot.getCategory().getCategory()
+        ));
 
         SortedList<FootwearAbstract> sortedList = new SortedList<>(filteredList);
 
@@ -182,22 +174,12 @@ public class StorageController implements Initializable {
         data_view.setItems(sortedList);
     }
 
-    private boolean containsKeys(String model, String text) {
-
-        int i = 0;
-
-        while (i < model.length() && i < text.length()) {
-
-            if (!String.valueOf(model.charAt(i)).equalsIgnoreCase(String.valueOf(text.charAt(i)))) {
-                return false;
-            }
-            i++;
-        }
-        return true;
-    }
 
     @FXML
     private void resetField() {
+
+        data_view.getSelectionModel().clearSelection();
+
         type_field.setText("");
         type_field.setDisable(true);
         model_field.setText("");
@@ -245,15 +227,7 @@ public class StorageController implements Initializable {
 
     }
 
-    private void setSelectedData(int currentIndex) {
-        FootwearAbstract footwearAbstract = data.get(currentIndex);
 
-        type_field.setText(footwearAbstract.getType().getType());
-        model_field.setText(footwearAbstract.getModel());
-        brend_field.setText(footwearAbstract.getBrand());
-        price_field.setText(footwearAbstract.getPrice().toString());
-        category_choose.setValue(footwearAbstract.getCategory().getCategory());
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -266,12 +240,112 @@ public class StorageController implements Initializable {
 
         initCategory();
 
+
         data_view.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
+
             int selectedIndex = data_view.getSelectionModel().getSelectedIndex();
 
-            setSelectedData(selectedIndex);
+            if (selectedIndex >= 0) {
+
+                setSelectedData(selectedIndex);
+            }
         });
 
+    }
+
+    @FXML
+    void checkChange1(MouseEvent event) {
+
+        if (check_category_1.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.MALE);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.MALE);
+            filterDataTableView();
+
+        }
+    }
+    @FXML
+    void checkChange2(MouseEvent event) {
+        if (check_category_2.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.FEMALE);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.FEMALE);
+            filterDataTableView();
+
+        }
+    }
+    @FXML
+    void checkChange3(MouseEvent event) {
+        if (check_category_3.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.UNISEX);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.UNISEX);
+            filterDataTableView();
+
+        }
+    }
+    @FXML
+    void checkChange4(MouseEvent event) {
+        if (check_category_4.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.ORTHOPEDIC);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.ORTHOPEDIC);
+            filterDataTableView();
+
+        }
+    }
+    @FXML
+    void checkChange5(MouseEvent event) {
+        if (check_category_5.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.HOMELY);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.HOMELY);
+            filterDataTableView();
+
+        }
+    }
+    @FXML
+    void checkChange6(MouseEvent event) {
+        if (check_category_6.isSelected()) {
+
+            filterBuilder.addCategoryPredicate(Category.CHILD);
+            filterDataTableView();
+
+        } else {
+
+            filterBuilder.removeCategoryPredicate(Category.CHILD);
+            filterDataTableView();
+
+        }
+    }
+    private void setSelectedData(int currentIndex) {
+        FootwearAbstract footwearAbstract = data.get(currentIndex);
+
+        type_field.setText(footwearAbstract.getType().getType());
+        model_field.setText(footwearAbstract.getModel());
+        brend_field.setText(footwearAbstract.getBrand());
+        price_field.setText(footwearAbstract.getPrice().toString());
+        category_choose.setValue(footwearAbstract.getCategory().getCategory());
     }
 
     private void initDataTable() {
@@ -321,4 +395,61 @@ public class StorageController implements Initializable {
         low_bound_slider.setText(String.valueOf((int) slider.getMin()));
     }
 
+
+    private final static class FilterBuilder {
+
+//    private Map<String, Predicate<String>> predicates = new HashMap<>();
+
+        private Predicate<Integer> price = (i) -> true;
+        private Predicate<String> stringPredicate = (i) -> true;
+
+        private Map<String, Predicate<String>> checkbox = new HashMap<>();
+
+        public void addBoundsPrice(Predicate<Integer> bounds) {
+
+            price = bounds;
+
+        }
+
+        public void addSearchText(String searchField) {
+
+            stringPredicate = (item) -> {
+                int i = 0;
+
+                while (i < item.length() && i < searchField.length()) {
+
+                    if (!String.valueOf(item.charAt(i)).equalsIgnoreCase(String.valueOf(searchField.charAt(i)))) {
+                        return false;
+                    }
+                    i++;
+                }
+
+                return true;
+            };
+
+        }
+
+        public void addCategoryPredicate(Category category) {
+
+            Predicate<String> checkBox = (i) -> i.equals(category.getCategory());
+
+            checkbox.put(category.getCategory(), checkBox);
+
+        }
+
+        public void removeCategoryPredicate(Category category) {
+
+            checkbox.remove(category.getCategory());
+
+        }
+
+        public boolean getPredicate(Integer priceBounds, String text, String category) {
+
+            Predicate<String> checkBoxPredicates = checkbox.values().stream().reduce(Predicate::or).orElse((i) -> true);
+
+            return price.test(priceBounds) && stringPredicate.test(text) && checkBoxPredicates.test(category);
+        }
+
+
+    }
 }

@@ -53,37 +53,37 @@
                <children>
                   <HBox prefHeight="28.0" prefWidth="202.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_1" mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" styleClass="checkbox" text="Чоловіче взуття" />
+                        <CheckBox fx:id="check_category_1" mnemonicParsing="false" onMouseClicked="#checkChange1" prefHeight="18.0" prefWidth="82.0" styleClass="checkbox" text="Чоловіче" />
                         <Label fx:id="check_category_count_1" text="(1123)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="39.0" prefWidth="202.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_2" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Жіноче взуття" />
+                        <CheckBox fx:id="check_category_2" mnemonicParsing="false" onMouseClicked="#checkChange2" prefHeight="18.0" prefWidth="72.0" text="Жіноче" />
                         <Label fx:id="check_category_count_2" text="(1123)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_3" mnemonicParsing="false" prefHeight="18.0" prefWidth="71.0" text="Унісекс " />
+                        <CheckBox fx:id="check_category_3" mnemonicParsing="false" onMouseClicked="#checkChange3" prefHeight="18.0" prefWidth="71.0" text="Унісекс " />
                         <Label fx:id="check_category_count_3" text="(1123)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_4" mnemonicParsing="false" prefHeight="18.0" prefWidth="107.0" text="Ортопедичне" />
+                        <CheckBox fx:id="check_category_4" mnemonicParsing="false" onMouseClicked="#checkChange4" prefHeight="18.0" prefWidth="107.0" text="Ортопедичне" />
                         <Label fx:id="check_category_count_4" text="(1123)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_5" mnemonicParsing="false" prefHeight="18.0" prefWidth="82.0" text="Домашнє" />
+                        <CheckBox fx:id="check_category_5" mnemonicParsing="false" onMouseClicked="#checkChange5" prefHeight="18.0" prefWidth="82.0" text="Домашнє" />
                         <Label fx:id="check_category_count_5" text="(1123)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-item-category">
                      <children>
-                        <CheckBox fx:id="check_category_6" mnemonicParsing="false" prefHeight="18.0" prefWidth="105.0" text="Дитяче взуття" />
+                        <CheckBox fx:id="check_category_6" mnemonicParsing="false" onMouseClicked="#checkChange6" prefHeight="18.0" prefWidth="73.0" text="Дитяче" />
                         <Label fx:id="check_category_count_6" text="(1123)" />
                      </children>
                   </HBox>
@@ -112,7 +112,7 @@
             <String fx:value="shadow" />
          </styleClass>
          <children>
-            <TextField fx:id="search_field" layoutX="23.0" layoutY="28.0" onKeyTyped="#filterDataInTable" onMouseClicked="#resetField" prefHeight="26.0" prefWidth="469.0" promptText="пошук" styleClass="search" />
+            <TextField fx:id="search_field" layoutX="23.0" layoutY="28.0" onKeyTyped="#searchByModel" onMouseClicked="#resetField" prefHeight="26.0" prefWidth="469.0" promptText="пошук" styleClass="search" />
             <FontAwesomeIconView glyphName="SEARCH" layoutX="31.0" layoutY="45.0" />
             <TableView fx:id="data_view" layoutX="15.0" layoutY="75.0" onMouseClicked="#undisabledSelect" prefHeight="316.0" prefWidth="787.0">
                <columns>

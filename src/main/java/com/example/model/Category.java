@@ -3,8 +3,8 @@ package com.example.model;
 import java.io.Serializable;
 
 public enum Category implements Serializable {
-    MALE("Чоловічі"), FEMALE("Жіночі"),
-    CHILD("Дитячі"), UNISEX("Унісекс"),
+    MALE("Чоловіче"), FEMALE("Жіноче"),
+    CHILD("Дитяче"), UNISEX("Унісекс"),
     ORTHOPEDIC("Ортопедичне"), HOMELY("Домашнє");
 
     private String category;
