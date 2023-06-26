@@ -12,12 +12,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoeaccountingcoursework.controllers.NewItemController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoeaccountingcoursework.controllers.NewItemController">
    <children>
-      <AnchorPane prefHeight="50.0" prefWidth="1056.0" styleClass="headbar-containter" stylesheets="@../../../style/more-info-style/headbar.css">
+      <AnchorPane prefHeight="50.0" prefWidth="1056.0" styleClass="headbar-containter" stylesheets="@../../../style/add-info-style/headbar.css">
          <children>
             <Text layoutX="285.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headbar-text" text="Програмний додаток для ведення обліку взуття" />
-            <Button fx:id="close_btn" layoutX="1012.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
+            <Button fx:id="close_btn" layoutX="1012.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#closeWindow" prefHeight="30.0" prefWidth="43.0" styleClass="close">
                <font>
                   <Font size="29.0" />
                </font>
@@ -25,7 +25,7 @@
                   <FontAwesomeIconView glyphName="CLOSE" text="" />
                </graphic>
             </Button>
-            <Button fx:id="turn_off_btn" layoutX="968.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="43.0" styleClass="close">
+            <Button fx:id="turn_off_btn" layoutX="968.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#hideWindow" prefHeight="30.0" prefWidth="43.0" styleClass="close">
                <font>
                   <Font size="29.0" />
                </font>
@@ -35,46 +35,28 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="36.0" layoutY="78.0" prefHeight="434.0" prefWidth="750.0" stylesheets="@../../../style/more-info-style/info-block.css">
+      <AnchorPane layoutX="36.0" layoutY="78.0" prefHeight="525.0" prefWidth="994.0" stylesheets="@../../../style/more-info-style/info-block.css">
          <children>
-            <AnchorPane layoutX="1.0" layoutY="58.0" prefHeight="378.0" prefWidth="989.0" styleClass="inner-container">
+            <AnchorPane layoutX="1.0" layoutY="58.0" prefHeight="260.0" prefWidth="990.0" styleClass="inner-container">
                <children>
-                  <ComboBox fx:id="fastern_choose" layoutX="565.0" layoutY="251.0" prefWidth="150.0" promptText="Тип застібки">
+                  <ComboBox fx:id="category_choose" layoutX="225.0" layoutY="41.0" prefWidth="150.0" promptText="Категорія">
                      <styleClass>
                         <String fx:value="info-containter-fields" />
                         <String fx:value="info-containter-prompt-field" />
                      </styleClass>
                   </ComboBox>
-                  <ComboBox fx:id="category_choose" layoutX="137.0" layoutY="251.0" prefWidth="150.0" promptText="Категорія">
+                  <TextField fx:id="model_field" layoutX="85.0" layoutY="132.0" styleClass="info-containter-fields" />
+                  <Label layoutX="24.0" layoutY="136.0" styleClass="info-containter-prompt-field" text="Модель:" />
+                  <TextField fx:id="brend_field" layoutX="529.0" layoutY="132.0" styleClass="info-containter-fields" />
+                  <Label layoutX="473.0" layoutY="136.0" styleClass="info-containter-prompt-field" text="Бренд:" />
+                  <TextField fx:id="price_field" layoutX="300.0" layoutY="132.0" styleClass="info-containter-fields" />
+                  <Label layoutX="248.0" layoutY="136.0" styleClass="info-containter-prompt-field" text="Ціна:" />
+                  <ComboBox fx:id="season_choose" layoutX="398.0" layoutY="41.0" prefWidth="150.0" promptText="Сезон">
                      <styleClass>
                         <String fx:value="info-containter-fields" />
                         <String fx:value="info-containter-prompt-field" />
                      </styleClass>
                   </ComboBox>
-                  <TextField fx:id="type_field" layoutX="138.0" layoutY="41.0" styleClass="info-containter-fields" />
-                  <Label layoutX="88.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Тип:" />
-                  <TextField fx:id="model_field" layoutX="137.0" layoutY="93.0" styleClass="info-containter-fields" />
-                  <Label layoutX="76.0" layoutY="97.0" styleClass="info-containter-prompt-field" text="Модель:" />
-                  <TextField fx:id="brend_field" layoutX="137.0" layoutY="145.0" styleClass="info-containter-fields" />
-                  <Label layoutX="81.0" layoutY="149.0" styleClass="info-containter-prompt-field" text="Бренд:" />
-                  <TextField fx:id="price_field" layoutX="138.0" layoutY="196.0" styleClass="info-containter-fields" />
-                  <Label layoutX="86.0" layoutY="200.0" styleClass="info-containter-prompt-field" text="Ціна:" />
-                  <TextField fx:id="size_btn" layoutX="381.0" layoutY="41.0" styleClass="info-containter-fields" />
-                  <Label layoutX="322.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Розмір:" />
-                  <TextField fx:id="color_btn" layoutX="381.0" layoutY="93.0" styleClass="info-containter-fields" />
-                  <Label layoutX="326.0" layoutY="97.0" styleClass="info-containter-prompt-field" text="Колір:" />
-                  <TextField fx:id="material_btn" layoutX="381.0" layoutY="145.0" styleClass="info-containter-fields" />
-                  <Label layoutX="304.0" layoutY="149.0" styleClass="info-containter-prompt-field" text="Матеріал:" />
-                  <TextField fx:id="sole_btn" layoutX="381.0" layoutY="196.0" styleClass="info-containter-fields" />
-                  <Label layoutX="306.0" layoutY="200.0" styleClass="info-containter-prompt-field" text="Підошва:" />
-                  <ComboBox fx:id="season_choose" layoutX="380.0" layoutY="251.0" prefWidth="150.0" promptText="Сезон">
-                     <styleClass>
-                        <String fx:value="info-containter-fields" />
-                        <String fx:value="info-containter-prompt-field" />
-                     </styleClass>
-                  </ComboBox>
-                  <TextField fx:id="weight_btn" layoutX="640.0" layoutY="40.0" prefHeight="26.0" prefWidth="54.0" styleClass="info-containter-fields" />
-                  <Label layoutX="552.0" layoutY="45.0" styleClass="info-containter-prompt-field" text="Вага (грам):" />
                   <AnchorPane layoutX="776.0" layoutY="19.0" prefHeight="200.0" prefWidth="163.0">
                      <children>
                         <ImageView fx:id="img_block" fitHeight="165.0" fitWidth="157.0" layoutX="5.0" layoutY="4.0" pickOnBounds="true">
@@ -82,7 +64,7 @@
                               <Image url="@../../../images/not-found.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="import_img_btn" layoutX="1.0" layoutY="174.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="163.0" styleClass="import-img" text="Завантажити">
+                        <Button fx:id="import_img_btn" layoutX="1.0" layoutY="174.0" mnemonicParsing="false" onMouseClicked="#importImage" prefHeight="26.0" prefWidth="163.0" styleClass="import-img" text="Завантажити">
                            <graphic>
                               <FontAwesomeIconView glyphName="DOWNLOAD" />
                            </graphic>
@@ -93,16 +75,24 @@
                         <String fx:value="image" />
                      </styleClass>
                   </AnchorPane>
-                  <Button fx:id="save_btn" layoutX="726.0" layoutY="338.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
+                  <ComboBox fx:id="type_choose" disable="true" layoutX="565.0" layoutY="41.0" prefWidth="150.0" promptText="Тип">
                      <styleClass>
-                        <String fx:value="save-btn" />
-                        <String fx:value="event-button" />
+                        <String fx:value="info-containter-fields" />
+                        <String fx:value="info-containter-prompt-field" />
                      </styleClass>
-                     <graphic>
-                        <FontAwesomeIconView glyphName="SAVE" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="delete_btn" layoutX="847.0" layoutY="338.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="94.0" text="Видалити">
+                  </ComboBox>
+                  <ComboBox fx:id="kind_choose" layoutX="52.0" layoutY="41.0" prefWidth="150.0" promptText="Вид">
+                     <styleClass>
+                        <String fx:value="info-containter-fields" />
+                        <String fx:value="info-containter-prompt-field" />
+                     </styleClass>
+                  </ComboBox>
+               </children>
+            </AnchorPane>
+            <Label layoutX="14.0" layoutY="14.0" styleClass="header-title" text="Інформація про взуття" />
+            <AnchorPane layoutX="1.0" layoutY="328.0" prefHeight="194.0" prefWidth="990.0" styleClass="inner-container">
+               <children>
+                  <Button fx:id="clear_btn" disable="true" layoutX="888.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#clearFields" prefHeight="12.0" prefWidth="94.0" text="Очистити">
                      <graphic>
                         <FontAwesomeIconView glyphName="REMOVE" />
                      </graphic>
@@ -111,9 +101,69 @@
                         <String fx:value="event-button" />
                      </styleClass>
                   </Button>
+                  <Button fx:id="save_btn" disable="true" layoutX="782.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#saveItem" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
+                     <styleClass>
+                        <String fx:value="save-btn" />
+                        <String fx:value="event-button" />
+                     </styleClass>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SAVE" />
+                     </graphic>
+                  </Button>
+                  <AnchorPane fx:id="boots_pane" layoutX="25.0" layoutY="14.0" prefHeight="150.0" prefWidth="958.0" visible="false">
+                     <children>
+                        <TextField fx:id="boots_color_field" layoutX="96.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="boots_material_field" layoutX="96.0" layoutY="110.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="boots_weight_field" layoutX="344.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="boots_size_field" layoutX="344.0" layoutY="110.0" styleClass="info-containter-fields" />
+                        <ComboBox fx:id="boots_category_choose" layoutX="542.0" layoutY="47.0" prefWidth="150.0" promptText="Застібки">
+                           <styleClass>
+                              <String fx:value="info-containter-fields" />
+                              <String fx:value="info-containter-prompt-field" />
+                           </styleClass>
+                        </ComboBox>
+                        <Label layoutX="41.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Колір:" />
+                        <Label layoutX="22.0" layoutY="115.0" styleClass="info-containter-prompt-field" text="Матеріал:" />
+                        <Label layoutX="289.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Вага:" />
+                        <Label layoutX="284.0" layoutY="115.0" styleClass="info-containter-prompt-field" text="Розмір" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="sandals_pane" layoutX="25.0" layoutY="14.0" prefHeight="150.0" prefWidth="957.0" visible="false">
+                     <children>
+                        <TextField fx:id="sandals_color_field" layoutX="96.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="sandals_appointment_field" layoutX="392.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="sandals_size_field" layoutX="392.0" layoutY="110.0" styleClass="info-containter-fields" />
+                        <ComboBox fx:id="sandals_category_choose" layoutX="95.0" layoutY="110.0" prefWidth="150.0" promptText="Застібки">
+                           <styleClass>
+                              <String fx:value="info-containter-fields" />
+                              <String fx:value="info-containter-prompt-field" />
+                           </styleClass>
+                        </ComboBox>
+                        <Label layoutX="47.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Колір:" />
+                        <Label layoutX="289.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Застосування:" />
+                        <Label layoutX="335.0" layoutY="115.0" styleClass="info-containter-prompt-field" text="Розмір:" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="shoes_pane" layoutX="25.0" layoutY="14.0" prefHeight="150.0" prefWidth="957.0" visible="false">
+                     <children>
+                        <TextField fx:id="shoes_color_field" layoutX="96.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="shoes_size_field" layoutX="374.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <Label layoutX="47.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Колір:" />
+                        <Label layoutX="317.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Розмір:" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="slippers_pane" layoutX="25.0" layoutY="14.0" prefHeight="150.0" prefWidth="957.0" visible="false">
+                     <children>
+                        <TextField fx:id="slippers_color_field" layoutX="96.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="slippers_appointment_field" layoutX="392.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <TextField fx:id="slippers_size_field" layoutX="643.0" layoutY="44.0" styleClass="info-containter-fields" />
+                        <Label layoutX="47.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Колір:" />
+                        <Label layoutX="289.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Застосування:" />
+                        <Label layoutX="586.0" layoutY="49.0" styleClass="info-containter-prompt-field" text="Розмір:" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
-            <Label layoutX="14.0" layoutY="14.0" styleClass="header-title" text="Інформація про взуття" />
          </children>
          <styleClass>
             <String fx:value="info-containter" />
