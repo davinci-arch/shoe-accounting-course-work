@@ -5,7 +5,7 @@ import java.io.Serializable;
 public enum Category implements Serializable {
     MALE("Чоловіче"), FEMALE("Жіноче"),
     CHILD("Дитяче"), UNISEX("Унісекс"),
-    ORTHOPEDIC("Ортопедичне"), HOMELY("Домашнє");
+    ORTHOPEDIC("Ортопедичне");
 
     private String category;
 

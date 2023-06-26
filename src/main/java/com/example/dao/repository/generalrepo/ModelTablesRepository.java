@@ -108,10 +108,10 @@ public class ModelTablesRepository {
 
             Statement statement = connection.createStatement();
 
-            items.addAll(executorService.submit(new AllItems(query, "boots", statement)).get());
-            items.addAll(executorService.submit(new AllItems(query, "sandals", statement)).get());
             items.addAll(executorService.submit(new AllItems(query, "shoes", statement)).get());
             items.addAll(executorService.submit(new AllItems(query, "slippers", statement)).get());
+            items.addAll(executorService.submit(new AllItems(query, "boots", statement)).get());
+            items.addAll(executorService.submit(new AllItems(query, "sandals", statement)).get());
 
             connection.commit();
         } catch (ExecutionException | SQLException | InterruptedException e) {
@@ -153,7 +153,6 @@ public class ModelTablesRepository {
 
                 }
             }
-
 
             return items;
         }

@@ -67,5 +67,12 @@
 
 .remove-btn{
     -fx-background-color: red;
+}
 
+.change-item{
+    -fx-border-color: red;
+}
+
+.save-change{
+    -fx-border-color: blue;
 }

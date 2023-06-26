@@ -3,11 +3,9 @@ package com.example.model.types;
 //Туфлі
 public enum ShoesType implements TypeFootwear{
     STILETTOS("Стилети"), OXFORDS("Оксфорди"),
-    DERBY("Дерби"), LOAFERS("Лофери"),
-    BROGUES("Броги"), MONKS("Монки"),
-    MOCCASINS("Мокасіни"), SHUTTLES("Човники"),
-    SCARPIN("Скарпин"), TEAR("Крапля"),
-    CHUNKY("Чанки");
+    DERBY("Дерби"), LOAFERS("Лофери"), MONKS("Монки"),
+    MOCCASINS("Мокасіни"), SHUTTLES("Човники");
+
 
     private String type;
 

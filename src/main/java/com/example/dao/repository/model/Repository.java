@@ -16,4 +16,8 @@ public interface Repository {
     List<FootwearAbstract> getFootwearByType(TypeFootwear type);
 
     void save(FootwearAbstract footwear);
+
+    void remove(int id);
+
+    void update(FootwearAbstract footwear);
 }

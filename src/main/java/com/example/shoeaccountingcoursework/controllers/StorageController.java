@@ -1,8 +1,15 @@
 package com.example.shoeaccountingcoursework.controllers;
 
+import com.example.dao.repository.ConvertorEnum;
 import com.example.dao.repository.generalrepo.ModelTablesRepository;
-import com.example.model.Category;
-import com.example.model.FootwearAbstract;
+import com.example.dao.repository.model.BootsRepository;
+import com.example.dao.repository.model.SandalsRepository;
+import com.example.dao.repository.model.ShoesRepository;
+import com.example.dao.repository.model.SlippersRepository;
+import com.example.model.*;
+import com.example.model.types.*;
+import com.example.service.FileImageService;
+import com.example.shoeaccountingcoursework.ChangePage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -11,13 +18,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.controlsfx.control.RangeSlider;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -27,6 +42,9 @@ public class StorageController implements Initializable {
 
     @FXML
     private Button add_btn;
+
+    @FXML
+    private AnchorPane pane_selected_item;
 
     @FXML
     private TableColumn<FootwearAbstract, String> brend_column;
@@ -56,9 +74,6 @@ public class StorageController implements Initializable {
     private CheckBox check_category_5;
 
     @FXML
-    private CheckBox check_category_6;
-
-    @FXML
     private Label check_category_count_1;
 
     @FXML
@@ -72,9 +87,6 @@ public class StorageController implements Initializable {
 
     @FXML
     private Label check_category_count_5;
-
-    @FXML
-    private Label check_category_count_6;
 
     @FXML
     private Button close_btn;
@@ -104,6 +116,9 @@ public class StorageController implements Initializable {
     private TableColumn<FootwearAbstract, String> model_column;
 
     @FXML
+    private AnchorPane main_form;
+
+    @FXML
     private TextField model_field;
 
     @FXML
@@ -131,13 +146,31 @@ public class StorageController implements Initializable {
     private TableColumn<FootwearAbstract, String> type_column;
 
     @FXML
-    private TextField type_field;
+    private ComboBox<String> type_field;
 
     private ModelTablesRepository model = new ModelTablesRepository();
 
     private ObservableList<FootwearAbstract> data = FXCollections.observableArrayList();
 
     private FilterBuilder filterBuilder = new FilterBuilder();
+
+    private BootsRepository bootsRepository = new BootsRepository();
+    private ShoesRepository shoesRepository = new ShoesRepository();
+    private SlippersRepository slippersRepository = new SlippersRepository();
+    private SandalsRepository sandalsRepository = new SandalsRepository();
+
+    private ChangePage nextPage = new ChangePage();
+
+    @FXML
+    void add_item(MouseEvent event) {
+        try {
+            add_btn.getScene().getWindow().hide();
+            nextPage.moveToAddPage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @FXML
     void changeRangeSlider(MouseEvent event) {
         low_bound_slider.setText(String.valueOf((int) slider.getLowValue()));
@@ -147,7 +180,9 @@ public class StorageController implements Initializable {
     @FXML
     void confirmRangePrice(MouseEvent event) {
 
-        filterBuilder.addBoundsPrice((i) -> i >= (int)slider.getLowValue() && i <= (int)slider.getHighValue());
+        filterBuilder.addBoundsPrice((i) -> i >= (int) slider.getLowValue() && i <= (int) slider.getHighValue());
+
+        resetField();
 
         filterDataTableView();
     }
@@ -177,10 +212,12 @@ public class StorageController implements Initializable {
 
     @FXML
     private void resetField() {
+        FileImageService fileImageService = new FileImageService();
 
         data_view.getSelectionModel().clearSelection();
 
-        type_field.setText("");
+        type_field.setValue("Тип");
+        type_field.setPromptText("Тип");
         type_field.setDisable(true);
         model_field.setText("");
         model_field.setDisable(true);
@@ -195,6 +232,9 @@ public class StorageController implements Initializable {
         save_btn.setDisable(true);
         more_btn.setDisable(true);
         delete_btn.setDisable(true);
+
+        Image image = new Image(fileImageService.getDefaultImage().getAbsolutePath());
+        img_block.setImage(image);
     }
 
     @FXML
@@ -216,7 +256,6 @@ public class StorageController implements Initializable {
     void undisabledSelect(MouseEvent event) {
 
         import_img_btn.setDisable(false);
-        save_btn.setDisable(false);
         more_btn.setDisable(false);
         delete_btn.setDisable(false);
         brend_field.setDisable(false);
@@ -228,6 +267,145 @@ public class StorageController implements Initializable {
     }
 
 
+    @FXML
+    void removeSelectedItem(MouseEvent event) {
+
+        int selectedItem = data_view.getSelectionModel().getFocusedIndex();
+
+        FootwearAbstract footwearAbstract = data.get(selectedItem);
+
+        if (footwearAbstract instanceof Slippers) {
+
+            slippersRepository.remove(footwearAbstract.getId());
+
+        } else if (footwearAbstract instanceof Sandals) {
+
+            sandalsRepository.remove(footwearAbstract.getId());
+
+        } else if (footwearAbstract instanceof Shoes) {
+
+            shoesRepository.remove(footwearAbstract.getId());
+
+        } else if (footwearAbstract instanceof Boots) {
+
+            bootsRepository.remove(footwearAbstract.getId());
+        }
+
+        initDataTable();
+
+        resetField();
+
+        initCountOfCategory();
+
+    }
+
+
+    @FXML
+    void saveSelectedItem(MouseEvent event) {
+
+        int selectedItem = data_view.getSelectionModel().getFocusedIndex();
+
+        FileImageService fileImageService = new FileImageService();
+
+        FootwearAbstract footwearAbstract = data.get(selectedItem);
+
+        footwearAbstract.setBrand(brend_field.getText());
+        footwearAbstract.setCategory(ConvertorEnum.getCategory(category_choose.getValue()));
+        footwearAbstract.setModel(model_field.getText());
+        footwearAbstract.setPrice(BigDecimal.valueOf(Long.parseLong(price_field.getText())));
+
+        if (footwearAbstract instanceof Slippers) {
+
+            footwearAbstract.setType(ConvertorEnum.getType(type_field.getValue(), SlippersType.values()));
+            slippersRepository.update(footwearAbstract);
+
+        } else if (footwearAbstract instanceof Sandals) {
+
+            footwearAbstract.setType(ConvertorEnum.getType(type_field.getValue(), SandalsType.values()));
+            sandalsRepository.update(footwearAbstract);
+
+        } else if (footwearAbstract instanceof Shoes) {
+
+            footwearAbstract.setType(ConvertorEnum.getType(type_field.getValue(), ShoesType.values()));
+            shoesRepository.update(footwearAbstract);
+
+        } else if (footwearAbstract instanceof Boots) {
+
+            footwearAbstract.setType(ConvertorEnum.getType(type_field.getValue(), BootsType.values()));
+            bootsRepository.update(footwearAbstract);
+        }
+
+        fileImageService.save(img_block.getImage().getUrl(),
+                footwearAbstract.getType().toString() + "_" + footwearAbstract.getId() + ".");
+
+        resetStylePane();
+
+        initDataTable();
+
+        resetField();
+
+        initCountOfCategory();
+
+        resetImgSelected();
+
+    }
+
+    @FXML
+    void isChangeField(KeyEvent event) {
+        isChanged();
+    }
+
+    @FXML
+    void more_info(MouseEvent event) {
+        // TODO: move to more info page
+    }
+
+    @FXML
+    void importImage(MouseEvent event) {
+
+        FileChooser fileChooser = new FileChooser();
+        File choosedFile = fileChooser.showOpenDialog(main_form.getScene().getWindow());
+
+        if (choosedFile != null) {
+
+            Image image = new Image(choosedFile.getAbsolutePath());
+
+            img_block.setImage(image);
+
+            isChanged();
+
+        }
+    }
+
+    @FXML
+    void hide_window(MouseEvent event) {
+
+        Stage window = (Stage) main_form.getScene().getWindow();
+        window.setIconified(true);
+
+    }
+
+    @FXML
+    void close_window(MouseEvent event) {
+
+        if (pane_selected_item.getStyleClass().contains("change-item")) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Закрти");
+            alert.setHeaderText("Ви впевнені що хочете закрити?");
+            alert.setContentText("Всі не збережені дані будуть втрачені!");
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                System.exit(200);
+            }
+
+        } else {
+
+            System.exit(200);
+        }
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -239,7 +417,6 @@ public class StorageController implements Initializable {
         initDataTable();
 
         initCategory();
-
 
         data_view.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
 
@@ -253,9 +430,40 @@ public class StorageController implements Initializable {
 
     }
 
+    private void isChanged() {
+        pane_selected_item.getStyleClass().add("change-item");
+        save_btn.setDisable(false);
+    }
+
+    private void resetStylePane() {
+
+        pane_selected_item.getStyleClass().removeAll("change-item");
+
+        pane_selected_item.getStyleClass().add("save-change");
+
+        save_btn.setDisable(true);
+    }
+
+    private void resetImgSelected() {
+
+        FileImageService imageService = new FileImageService();
+
+        File defaultImage = imageService.getDefaultImage();
+
+        if (defaultImage != null) {
+
+            Image image = new Image(defaultImage.getAbsolutePath());
+
+
+            img_block.setImage(image);
+
+        }
+
+    }
+
     @FXML
     void checkChange1(MouseEvent event) {
-
+        resetField();
         if (check_category_1.isSelected()) {
 
             filterBuilder.addCategoryPredicate(Category.MALE);
@@ -268,8 +476,10 @@ public class StorageController implements Initializable {
 
         }
     }
+
     @FXML
     void checkChange2(MouseEvent event) {
+        resetField();
         if (check_category_2.isSelected()) {
 
             filterBuilder.addCategoryPredicate(Category.FEMALE);
@@ -282,8 +492,10 @@ public class StorageController implements Initializable {
 
         }
     }
+
     @FXML
     void checkChange3(MouseEvent event) {
+        resetField();
         if (check_category_3.isSelected()) {
 
             filterBuilder.addCategoryPredicate(Category.UNISEX);
@@ -296,8 +508,10 @@ public class StorageController implements Initializable {
 
         }
     }
+
     @FXML
     void checkChange4(MouseEvent event) {
+        resetField();
         if (check_category_4.isSelected()) {
 
             filterBuilder.addCategoryPredicate(Category.ORTHOPEDIC);
@@ -310,23 +524,11 @@ public class StorageController implements Initializable {
 
         }
     }
+
     @FXML
     void checkChange5(MouseEvent event) {
+        resetField();
         if (check_category_5.isSelected()) {
-
-            filterBuilder.addCategoryPredicate(Category.HOMELY);
-            filterDataTableView();
-
-        } else {
-
-            filterBuilder.removeCategoryPredicate(Category.HOMELY);
-            filterDataTableView();
-
-        }
-    }
-    @FXML
-    void checkChange6(MouseEvent event) {
-        if (check_category_6.isSelected()) {
 
             filterBuilder.addCategoryPredicate(Category.CHILD);
             filterDataTableView();
@@ -338,19 +540,56 @@ public class StorageController implements Initializable {
 
         }
     }
+
     private void setSelectedData(int currentIndex) {
         FootwearAbstract footwearAbstract = data.get(currentIndex);
 
-        type_field.setText(footwearAbstract.getType().getType());
+        initTypeBySelectionItem(footwearAbstract.getType());
         model_field.setText(footwearAbstract.getModel());
         brend_field.setText(footwearAbstract.getBrand());
         price_field.setText(footwearAbstract.getPrice().toString());
         category_choose.setValue(footwearAbstract.getCategory().getCategory());
+
+        img_block.setImage(getImage(footwearAbstract.getType().toString() + "_" + footwearAbstract.getId() + "."));
+
+    }
+
+    private Image getImage(String fileName) {
+
+        FileImageService fileImageService = new FileImageService();
+
+        File imageByName = fileImageService.getImageByName(fileName);
+
+        return new Image(imageByName.getAbsolutePath());
+    }
+
+    private void initTypeBySelectionItem(TypeFootwear type) {
+
+        if (type instanceof ShoesType) {
+
+            type_field.getItems().setAll(Arrays.stream(ShoesType.values()).map(ShoesType::getType).toList());
+
+        } else if (type instanceof BootsType) {
+
+            type_field.getItems().setAll(Arrays.stream(BootsType.values()).map(BootsType::getType).toList());
+
+        } else if (type instanceof SandalsType) {
+
+            type_field.getItems().setAll(Arrays.stream(SandalsType.values()).map(SandalsType::getType).toList());
+
+        } else if (type instanceof SlippersType) {
+
+            type_field.getItems().setAll(Arrays.stream(SlippersType.values()).map(SlippersType::getType).toList());
+
+        }
+
+        type_field.setValue(type.getType());
+
     }
 
     private void initDataTable() {
 
-        data.addAll(model.getAllItems());
+        data.setAll(model.getAllItems());
 
         brend_column.setCellValueFactory(new PropertyValueFactory<>("brand"));
         category_column.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -376,15 +615,13 @@ public class StorageController implements Initializable {
         int female = model.getCountOfCategory(Category.FEMALE);
         int unisex = model.getCountOfCategory(Category.UNISEX);
         int orthopedic = model.getCountOfCategory(Category.ORTHOPEDIC);
-        int homely = model.getCountOfCategory(Category.HOMELY);
 
 
         check_category_count_1.setText(String.format(patternSet, male));
         check_category_count_2.setText(String.format(patternSet, female));
         check_category_count_3.setText(String.format(patternSet, unisex));
         check_category_count_4.setText(String.format(patternSet, orthopedic));
-        check_category_count_5.setText(String.format(patternSet, homely));
-        check_category_count_6.setText(String.format(patternSet, child));
+        check_category_count_5.setText(String.format(patternSet, child));
     }
 
     private void setDefaultSliderBounds() {
@@ -398,7 +635,6 @@ public class StorageController implements Initializable {
 
     private final static class FilterBuilder {
 
-//    private Map<String, Predicate<String>> predicates = new HashMap<>();
 
         private Predicate<Integer> price = (i) -> true;
         private Predicate<String> stringPredicate = (i) -> true;

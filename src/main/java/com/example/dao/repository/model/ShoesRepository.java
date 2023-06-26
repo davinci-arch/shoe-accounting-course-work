@@ -59,18 +59,15 @@ public class ShoesRepository implements Repository {
     }
 
     public static FootwearAbstract mapFootwear(ResultSet resultSet) throws SQLException {
-        return new Shoes(ConvertorEnum.getCategory(resultSet.getString("Category")),
+        return new Shoes(resultSet.getInt("id_footwear"),
+                ConvertorEnum.getCategory(resultSet.getString("category")),
                 ConvertorEnum.getType(resultSet.getString("type"), ShoesType.values()),
                 resultSet.getString("model"),
                 resultSet.getString("brand"),
                 BigDecimal.valueOf(Long.parseLong(resultSet.getString("price"))),
-                ConvertorEnum.getSeason(resultSet.getString("season")),
-                resultSet.getInt("size"),
+                ConvertorEnum.getSeason(resultSet.getString("seasons")),
                 resultSet.getString("color"),
-                resultSet.getString("material"),
-                resultSet.getString("sole"),
-                resultSet.getDouble("weight"),
-                ConvertorEnum.getFastener(resultSet.getString("typeOfFastener")));
+                resultSet.getInt("size"));
     }
 
 
@@ -129,8 +126,8 @@ public class ShoesRepository implements Repository {
     @Override
     public void save(FootwearAbstract footwear) {
         String query = "INSERT INTO shoes(category, type, model, brand, price," +
-                " season, size, color, material, sole, weight, typeOfFastener) " +
-                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                " color, size, seasons) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
 
         try (Connection connection = pool.getConnection()) {
 
@@ -141,17 +138,11 @@ public class ShoesRepository implements Repository {
             preparedStatement.setString(3, footwear.getModel());
             preparedStatement.setString(4, footwear.getBrand());
             preparedStatement.setString(5, footwear.getPrice().toString());
-            preparedStatement.setString(6, footwear.getSeason().getSeasonName());
 
-            if (footwear instanceof Shoes) {
-                preparedStatement.setInt(7, ((Shoes) footwear).getSize());
-                preparedStatement.setString(8, ((Shoes) footwear).getColor());
-                preparedStatement.setString(9, ((Shoes) footwear).getMaterial());
-                preparedStatement.setString(10, ((Shoes) footwear).getSole());
-                preparedStatement.setDouble(11, ((Shoes) footwear).getWeight());
-                preparedStatement.setString(12, ((Shoes) footwear).getTypeOfFastener().getTypeFastener());
+            preparedStatement.setString(6, ((Shoes) footwear).getColor());
+            preparedStatement.setInt(7, ((Shoes) footwear).getSize());
+            preparedStatement.setString(8, footwear.getSeason().getSeasonName());
 
-            }
 
             preparedStatement.execute();
 
@@ -161,4 +152,55 @@ public class ShoesRepository implements Repository {
 
         }
     }
+
+    @Override
+    public void remove(int id) {
+
+        String query = "delete from shoes where id_footwear = ?";
+
+        try (Connection connection = pool.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.execute();
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            LOG.warn("cannot get a connection from pool");
+        }
+    }
+
+    @Override
+    public void update(FootwearAbstract footwear) {
+        String query = "update shoes " +
+                "set category=?, type=?, model=?, brand=?, price=?, color=?, size=?, seasons=?" +
+                " where id_footwear = ?";
+
+        try (Connection connection = pool.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, footwear.getCategory().getCategory());
+            preparedStatement.setString(2, footwear.getType().getType());
+            preparedStatement.setString(3, footwear.getModel());
+            preparedStatement.setString(4, footwear.getBrand());
+            preparedStatement.setString(5, footwear.getPrice().toString());
+
+            preparedStatement.setString(6, ((Shoes) footwear).getColor());
+            preparedStatement.setInt(7, ((Shoes) footwear).getSize());
+            preparedStatement.setString(8, footwear.getSeason().getSeasonName());
+            preparedStatement.setInt(9, footwear.getId());
+
+            preparedStatement.execute();
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            LOG.warn("cannot get a connection from pool");
+        }
+    }
+
 }

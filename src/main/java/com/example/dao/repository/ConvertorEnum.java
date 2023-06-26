@@ -21,9 +21,9 @@ public class ConvertorEnum {
         throw new RuntimeException("Cannot find a type");
     }
 
-    public static Seasons getSeason(String type) {
+    public static Seasons getSeason(String season) {
         for (Seasons c : Seasons.values()) {
-            if (c.getSeasonName().equals(type)) {
+            if (c.getSeasonName().equals(season)) {
                 return c;
             }
         }

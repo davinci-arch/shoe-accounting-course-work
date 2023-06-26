@@ -1,56 +1,59 @@
 package com.example.shoeaccountingcoursework;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class ChangePage {
 
     private double x;
     private double y;
 
+    private void moveToPage(String pageName) throws IOException {
 
-    @Override
-    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(pageName));
 
-        Parent root = FXMLLoader.load(getClass().getResource("storage-view.fxml"));
-
+        Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root, 1056, 799);
 
+        Stage stage = new Stage();
 
-        root.setOnMousePressed((MouseEvent event) -> {
+        root.setOnMousePressed(event -> {
             x = event.getSceneX();
             y = event.getSceneY();
         });
 
-        root.setOnMouseDragged((MouseEvent event) -> {
+        root.setOnMouseDragged(event -> {
             stage.setX(event.getScreenX() - x);
             stage.setY(event.getScreenY() - y);
 
             stage.setOpacity(.8);
         });
 
+        root.setOnMouseReleased(event -> {
 
-        root.setOnMouseReleased(mouseEvent -> {
             stage.setOpacity(1);
         });
 
 
-        stage.initStyle(StageStyle.TRANSPARENT); // disabled top panel
+        stage.initStyle(StageStyle.TRANSPARENT);
 
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+
     }
 
-    public static void main(String[] args) {
-        launch();
+    public void moveToAddPage() throws IOException {
+
+        moveToPage("add-info.fxml");
+
     }
+
 }

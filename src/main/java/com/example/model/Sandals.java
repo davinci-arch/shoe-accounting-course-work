@@ -7,32 +7,42 @@ import java.util.Objects;
 
 public class Sandals extends FootwearAbstract{
 
-    private int size;
+    private Fastener fastener;
+
     private String color;
-    private String material;
-    private String sole;
-    private double weight;
-    private Fastener typeOfFastener;
+
+    private String appointment;
+
+    private int size;
+
+
+    public Sandals(int id, Category category, TypeFootwear type, String model,
+                   String brand, BigDecimal price, Seasons season,
+                   Fastener fastener, String color, String appointment, int size) {
+        super(id, category, type, model, brand, price, season);
+        this.fastener = fastener;
+        this.color = color;
+        this.appointment = appointment;
+        this.size = size;
+    }
 
     public Sandals(Category category, TypeFootwear type, String model,
                    String brand, BigDecimal price, Seasons season,
-                   int size, String color, String material, String sole,
-                   double weight, Fastener typeOfFastener) {
+                   Fastener fastener, String color, String appointment,
+                   int size) {
         super(category, type, model, brand, price, season);
-        this.size = size;
+        this.fastener = fastener;
         this.color = color;
-        this.material = material;
-        this.sole = sole;
-        this.weight = weight;
-        this.typeOfFastener = typeOfFastener;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
+        this.appointment = appointment;
         this.size = size;
+    }
+
+    public Fastener getFastener() {
+        return fastener;
+    }
+
+    public void setFastener(Fastener fastener) {
+        this.fastener = fastener;
     }
 
     public String getColor() {
@@ -43,47 +53,30 @@ public class Sandals extends FootwearAbstract{
         this.color = color;
     }
 
-    public String getMaterial() {
-        return material;
+    public String getAppointment() {
+        return appointment;
     }
 
-    public void setMaterial(String material) {
-        this.material = material;
+    public void setAppointment(String appointment) {
+        this.appointment = appointment;
     }
 
-    public String getSole() {
-        return sole;
+    public int getSize() {
+        return size;
     }
 
-    public void setSole(String sole) {
-        this.sole = sole;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public Fastener getTypeOfFastener() {
-        return typeOfFastener;
-    }
-
-    public void setTypeOfFastener(Fastener typeOfFastener) {
-        this.typeOfFastener = typeOfFastener;
-    }
 
     @Override
     public String toString() {
         return "Sandals{" +
-                "size=" + size +
+                "fastener=" + fastener +
                 ", color='" + color + '\'' +
-                ", material='" + material + '\'' +
-                ", sole='" + sole + '\'' +
-                ", weight=" + weight +
-                ", typeOfFastener='" + typeOfFastener + '\'' +
+                ", appointment='" + appointment + '\'' +
+                ", size=" + size +
                 '}';
     }
 
@@ -91,18 +84,17 @@ public class Sandals extends FootwearAbstract{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Sandals sandals = (Sandals) o;
         return size == sandals.size &&
-                Double.compare(sandals.weight, weight) == 0 &&
+                fastener == sandals.fastener &&
                 Objects.equals(color, sandals.color) &&
-                Objects.equals(material, sandals.material) &&
-                Objects.equals(sole, sandals.sole) &&
-                typeOfFastener == sandals.typeOfFastener &&
+                Objects.equals(appointment, sandals.appointment) &&
                 super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(size, color, material, sole, weight, typeOfFastener);
+        return Objects.hash(super.hashCode(), fastener, color, appointment, size);
     }
 }

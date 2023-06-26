@@ -7,31 +7,45 @@ import java.util.Objects;
 
 public class Boots extends FootwearAbstract{
 
-    private int size;
-    private String color;
-    private String material;
-    private String sole;
-    private double weight;
-    private Fastener typeOfFastener;
+    private Fastener faster;
 
-    public Boots(Category category, TypeFootwear type, String model, String brand,
-                 BigDecimal price, Seasons season, int size, String color,
-                 String material, String sole, double weight, Fastener typeOfFastener) {
-        super(category, type, model, brand, price, season);
-        this.size = size;
+    private String color;
+
+    private String material;
+
+    private double weight;
+
+    private int size;
+
+    public Boots(int id, Category category, TypeFootwear type, String model,
+                 String brand, BigDecimal price, Seasons season,
+                 Fastener faster, String color, String material, double weight, int size) {
+        super(id, category, type, model, brand, price, season);
+        this.faster = faster;
         this.color = color;
         this.material = material;
-        this.sole = sole;
         this.weight = weight;
-        this.typeOfFastener = typeOfFastener;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
         this.size = size;
+    }
+
+    public Boots(Category category, TypeFootwear type, String model,
+                 String brand, BigDecimal price, Seasons season,
+                 Fastener faster, String color, String material,
+                 double weight, int size) {
+        super(category, type, model, brand, price, season);
+        this.faster = faster;
+        this.color = color;
+        this.material = material;
+        this.weight = weight;
+        this.size = size;
+    }
+
+    public Fastener getFaster() {
+        return faster;
+    }
+
+    public void setFaster(Fastener faster) {
+        this.faster = faster;
     }
 
     public String getColor() {
@@ -50,14 +64,6 @@ public class Boots extends FootwearAbstract{
         this.material = material;
     }
 
-    public String getSole() {
-        return sole;
-    }
-
-    public void setSole(String sole) {
-        this.sole = sole;
-    }
-
     public double getWeight() {
         return weight;
     }
@@ -66,23 +72,23 @@ public class Boots extends FootwearAbstract{
         this.weight = weight;
     }
 
-    public Fastener getTypeOfFastener() {
-        return typeOfFastener;
+    public int getSize() {
+        return size;
     }
 
-    public void setTypeOfFastener(Fastener typeOfFastener) {
-        this.typeOfFastener = typeOfFastener;
+    public void setSize(int size) {
+        this.size = size;
     }
+
 
     @Override
     public String toString() {
         return "Boots{" +
-                "size=" + size +
+                "faster=" + faster +
                 ", color='" + color + '\'' +
                 ", material='" + material + '\'' +
-                ", sole='" + sole + '\'' +
                 ", weight=" + weight +
-                ", typeOfFastener='" + typeOfFastener + '\'' +
+                ", size=" + size +
                 '}';
     }
 
@@ -90,18 +96,18 @@ public class Boots extends FootwearAbstract{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Boots boots = (Boots) o;
-        return size == boots.size &&
-                Double.compare(boots.weight, weight) == 0 &&
+        return Double.compare(boots.weight, weight) == 0 &&
+                size == boots.size &&
+                faster == boots.faster &&
                 Objects.equals(color, boots.color) &&
                 Objects.equals(material, boots.material) &&
-                Objects.equals(sole, boots.sole) &&
-                typeOfFastener == boots.typeOfFastener &&
                 super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(size, color, material, sole, weight, typeOfFastener);
+        return Objects.hash(super.hashCode(), faster, color, material, weight, size);
     }
 }
