@@ -61,4 +61,9 @@ public class ChangePage {
         moveToPage("storage-view.fxml");
     }
 
+    public void moveToMoreInfoPage() throws IOException {
+
+        moveToPage("more-info.fxml");
+
+    }
 }
