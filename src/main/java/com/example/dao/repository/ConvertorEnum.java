@@ -17,7 +17,7 @@ public class ConvertorEnum {
                 return c;
             }
         }
-        LOG.warn("type cannot find");
+        LOG.warn(type + " type cannot find");
         throw new RuntimeException("Cannot find a type");
     }
 

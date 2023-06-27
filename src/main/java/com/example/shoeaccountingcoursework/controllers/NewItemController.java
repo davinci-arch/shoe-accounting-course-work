@@ -1,12 +1,17 @@
 package com.example.shoeaccountingcoursework.controllers;
 
-import com.example.model.Category;
-import com.example.model.Seasons;
+import com.example.dao.repository.ConvertorEnum;
+import com.example.dao.repository.model.BootsRepository;
+import com.example.dao.repository.model.SandalsRepository;
+import com.example.dao.repository.model.ShoesRepository;
+import com.example.dao.repository.model.SlippersRepository;
+import com.example.model.*;
 import com.example.model.types.BootsType;
 import com.example.model.types.SandalsType;
 import com.example.model.types.ShoesType;
 import com.example.model.types.SlippersType;
 import com.example.service.FileImageService;
+import com.example.shoeaccountingcoursework.ChangePage;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +28,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +38,7 @@ import java.util.ResourceBundle;
 public class NewItemController implements Initializable {
 
     @FXML
-    private ComboBox<Category> boots_category_choose;
+    private ComboBox<String> boots_fastener_choose;
 
     @FXML
     private ComboBox<String> kind_choose;
@@ -82,7 +89,7 @@ public class NewItemController implements Initializable {
     private TextField sandals_appointment_field;
 
     @FXML
-    private ComboBox<String> sandals_category_choose;
+    private ComboBox<String> sandals_fastener_choose;
 
     @FXML
     private TextField sandals_color_field;
@@ -126,6 +133,10 @@ public class NewItemController implements Initializable {
     @FXML
     private ComboBox<String> type_choose;
 
+    private ChangePage changePage = new ChangePage();
+
+    private FileImageService fileImageService = new FileImageService();
+
     @FXML
     void clearFields(MouseEvent event) {
 
@@ -163,6 +174,85 @@ public class NewItemController implements Initializable {
     @FXML
     void saveItem(MouseEvent event) {
 
+        FootwearAbstract footwear = null;
+
+        if (kind_choose.getValue().equals("Тапочки")) {
+
+            footwear = new Slippers(ConvertorEnum.getCategory(category_choose.getValue()),
+                    ConvertorEnum.getType(type_choose.getValue(), SlippersType.values()), model_field.getText(),
+                    brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
+                    ConvertorEnum.getSeason(season_choose.getValue()), slippers_color_field.getText(),
+                    slippers_appointment_field.getText(), Integer.parseInt(slippers_size_field.getText()));
+
+            SlippersRepository slippersRepository = new SlippersRepository();
+            slippersRepository.save(footwear);
+
+            footwear = slippersRepository.getLast();
+
+
+        } else if (kind_choose.getValue().equals("Туфлі")) {
+
+            footwear = new Shoes(ConvertorEnum.getCategory(category_choose.getValue()),
+                    ConvertorEnum.getType(type_choose.getValue(), ShoesType.values()), model_field.getText(),
+                    brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
+                    ConvertorEnum.getSeason(season_choose.getValue()),shoes_color_field.getText(),
+                    Integer.parseInt(shoes_size_field.getText()));
+
+            ShoesRepository shoesRepository = new ShoesRepository();
+            shoesRepository.save(footwear);
+
+            footwear = shoesRepository.getLast();
+
+        } else if (kind_choose.getValue().equals("Босоніжки")) {
+
+            footwear = new Sandals(ConvertorEnum.getCategory(category_choose.getValue()),
+                    ConvertorEnum.getType(type_choose.getValue(), SandalsType.values()), model_field.getText(),
+                    brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
+                    ConvertorEnum.getSeason(season_choose.getValue()),
+                    ConvertorEnum.getFastener(sandals_fastener_choose.getValue()), sandals_color_field.getText(),
+                    sandals_appointment_field.getText(), Integer.parseInt(sandals_size_field.getText()));
+
+            SandalsRepository sandalsRepository = new SandalsRepository();
+            sandalsRepository.save(footwear);
+
+            footwear = sandalsRepository.getLast();
+
+
+        } else if (kind_choose.getValue().equals("Чоботи")) {
+
+            footwear = new Boots(ConvertorEnum.getCategory(category_choose.getValue()),
+                    ConvertorEnum.getType(type_choose.getValue(), BootsType.values()), model_field.getText(),
+                    brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
+                    ConvertorEnum.getSeason(season_choose.getValue()),
+                    ConvertorEnum.getFastener(boots_fastener_choose.getValue()),boots_color_field.getText(),
+                    boots_material_field.getText(), Double.parseDouble(boots_weight_field.getText()),
+                    Integer.parseInt(boots_size_field.getText()));
+
+            BootsRepository bootsRepository = new BootsRepository();
+            bootsRepository.save(footwear);
+
+            footwear = bootsRepository.getLast();
+        }
+
+        saveImg(footwear);
+
+        save_btn.getScene().getWindow().hide();
+        try {
+            changePage.moveToMainPage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private void saveImg(FootwearAbstract footwearAbstract) {
+
+        String url = img_block.getImage().getUrl();
+
+        fileImageService.save(url,
+                footwearAbstract.getType().toString() + "_" + footwearAbstract.getId());
+
     }
 
     @Override
@@ -173,6 +263,8 @@ public class NewItemController implements Initializable {
         initCategory();
 
         initSeason();
+
+        initFastener();
 
         kind_choose.valueProperty().addListener((observableValue, s, t1) -> {
 
@@ -218,9 +310,16 @@ public class NewItemController implements Initializable {
         } else if (kind.equals("Чоботи")) {
 
             boots_pane.setVisible(true);
-
         }
 
+    }
+
+    void initFastener() {
+
+        for (Fastener fastener : Fastener.values()) {
+            boots_fastener_choose.getItems().add(fastener.getTypeFastener());
+            sandals_fastener_choose.getItems().add(fastener.getTypeFastener());
+        }
     }
 
     private void initTypesByKind(String kind) {

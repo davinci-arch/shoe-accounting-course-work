@@ -207,4 +207,29 @@ public class SlippersRepository implements Repository {
             LOG.warn("cannot get a connection from pool");
         }
     }
+
+    @Override
+    public FootwearAbstract getLast() {
+
+        String query = "select * from slippers order by id_footwear desc limit 1";
+
+        FootwearAbstract footwearAbstract = null;
+
+        try (Connection connection = pool.getConnection()) {
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                footwearAbstract = mapFootwear(resultSet);
+
+            }
+
+        } catch (SQLException e) {
+            LOG.warn("cannot get a connection from pool");
+        }
+
+        return footwearAbstract;
+    }
 }

@@ -18,17 +18,19 @@ public class FileImageService {
 
     public void save(String filePath, String objectAttributesForName) {
         LOG.info("New file name " + objectAttributesForName);
+        LOG.info("File path img: " + filePath);
 
-        Path sourcePath = Path.of(filePath);
+        if (!filePath.equals("file:/D:/repositories/shoe-accounting-course-work/target/classes/images/not-found.png")) {
+            Path sourcePath = Path.of(filePath);
+            Path newFileLocation = Path.of(URI);
+            Path newFileName = newFileLocation.resolve(objectAttributesForName+".png");
 
-        Path newFileLocation = Path.of(URI);
-        Path newFileName = newFileLocation.resolve(objectAttributesForName+".png");
-
-        try {
-            Files.move(sourcePath, newFileName, StandardCopyOption.REPLACE_EXISTING);
-            LOG.info("Path to save: " + newFileName.toAbsolutePath());
-        } catch (IOException e) {
-            LOG.warn("Не вдалося перемістити файл");
+            try {
+                Files.move(sourcePath, newFileName, StandardCopyOption.REPLACE_EXISTING);
+                LOG.info("Path to save: " + newFileName.toAbsolutePath());
+            } catch (IOException e) {
+                LOG.warn("Не вдалося перемістити файл");
+            }
         }
 
     }
@@ -51,6 +53,13 @@ public class FileImageService {
     public File getDefaultImage() {
 
         return new File(URI + "\\" + "not-found.png");
+    }
+
+    public boolean removeFile(String name) {
+        LOG.info("Remove file by name: " + name);
+        File file = new File(URI + "\\" + name + ".png");
+        LOG.info("path: " + URI+name+".png");
+        return file.delete();
     }
 
 }

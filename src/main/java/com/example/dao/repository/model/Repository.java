@@ -20,4 +20,6 @@ public interface Repository {
     void remove(int id);
 
     void update(FootwearAbstract footwear);
+
+    FootwearAbstract getLast();
 }

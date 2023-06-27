@@ -161,6 +161,8 @@ public class StorageController implements Initializable {
 
     private ChangePage nextPage = new ChangePage();
 
+    private FileImageService fileImageService = new FileImageService();
+
     @FXML
     void add_item(MouseEvent event) {
         try {
@@ -291,6 +293,8 @@ public class StorageController implements Initializable {
             bootsRepository.remove(footwearAbstract.getId());
         }
 
+        fileImageService.removeFile(footwearAbstract.getType().getType()+"_"+footwearAbstract.getId());
+
         initDataTable();
 
         resetField();
@@ -305,7 +309,6 @@ public class StorageController implements Initializable {
 
         int selectedItem = data_view.getSelectionModel().getFocusedIndex();
 
-        FileImageService fileImageService = new FileImageService();
 
         FootwearAbstract footwearAbstract = data.get(selectedItem);
 
@@ -336,7 +339,7 @@ public class StorageController implements Initializable {
         }
 
         fileImageService.save(img_block.getImage().getUrl(),
-                footwearAbstract.getType().toString() + "_" + footwearAbstract.getId() + ".");
+                footwearAbstract.getType().toString() + "_" + footwearAbstract.getId());
 
         resetStylePane();
 
@@ -550,7 +553,7 @@ public class StorageController implements Initializable {
         price_field.setText(footwearAbstract.getPrice().toString());
         category_choose.setValue(footwearAbstract.getCategory().getCategory());
 
-        img_block.setImage(getImage(footwearAbstract.getType().toString() + "_" + footwearAbstract.getId() + "."));
+        img_block.setImage(getImage(footwearAbstract.getType().toString() + "_" + footwearAbstract.getId()));
 
     }
 
