@@ -25,7 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.controlsfx.control.RangeSlider;
 
 import java.io.File;
@@ -360,13 +359,20 @@ public class StorageController implements Initializable {
 
     @FXML
     void more_info(MouseEvent event) {
-        // TODO: move to more info page
+        try {
+            nextPage.moveToMoreInfoPage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     void importImage(MouseEvent event) {
 
         FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().addAll(fileImageService.getAllTypesOfExtensionsImage());
+
         File choosedFile = fileChooser.showOpenDialog(main_form.getScene().getWindow());
 
         if (choosedFile != null) {

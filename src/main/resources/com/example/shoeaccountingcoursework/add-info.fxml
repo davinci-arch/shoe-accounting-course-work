@@ -35,9 +35,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="36.0" layoutY="78.0" prefHeight="525.0" prefWidth="994.0" stylesheets="@../../../style/more-info-style/info-block.css">
+      <AnchorPane layoutX="36.0" layoutY="78.0" prefHeight="525.0" prefWidth="994.0" stylesheets="@../../../style/add-info-style/info-block.css">
          <children>
-            <AnchorPane layoutX="1.0" layoutY="58.0" prefHeight="260.0" prefWidth="990.0" styleClass="inner-container">
+            <AnchorPane fx:id="shared_data_pane" layoutX="1.0" layoutY="58.0" prefHeight="260.0" prefWidth="990.0" styleClass="inner-container">
                <children>
                   <ComboBox fx:id="category_choose" layoutX="225.0" layoutY="41.0" prefWidth="150.0" promptText="Категорія">
                      <styleClass>
@@ -90,7 +90,7 @@
                </children>
             </AnchorPane>
             <Label layoutX="14.0" layoutY="14.0" styleClass="header-title" text="Додати запис" />
-            <AnchorPane layoutX="1.0" layoutY="328.0" prefHeight="194.0" prefWidth="990.0" styleClass="inner-container">
+            <AnchorPane fx:id="other_data_pane" layoutX="1.0" layoutY="328.0" prefHeight="194.0" prefWidth="990.0" styleClass="inner-container">
                <children>
                   <Button fx:id="clear_btn" disable="true" layoutX="888.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#clearFields" prefHeight="12.0" prefWidth="94.0" text="Очистити">
                      <graphic>
@@ -101,7 +101,7 @@
                         <String fx:value="event-button" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="save_btn" layoutX="782.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#saveItem" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
+                  <Button fx:id="save_btn" disable="true" layoutX="782.0" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#saveItem" prefHeight="12.0" prefWidth="94.0" text="Зберегти">
                      <styleClass>
                         <String fx:value="save-btn" />
                         <String fx:value="event-button" />

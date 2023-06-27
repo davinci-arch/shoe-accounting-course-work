@@ -5,23 +5,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import org.controlsfx.control.RangeSlider?>
-<?import tornadofx.MaskPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../style/storage-style/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoeaccountingcoursework.controllers.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoeaccountingcoursework.controllers.HelloController">
    <children>
       <Label fx:id="welcomeText" layoutX="141.0" layoutY="96.0" />
-      <AnchorPane fx:id="content" layoutX="81.0" layoutY="41.0" prefHeight="318.0" prefWidth="422.0" styleClass="block">
-         <children>
-            <RangeSlider fx:id="id_slider" highValue="1000.0" layoutX="26.0" layoutY="67.0" lowValue="0.0" max="1000.0" minorTickCount="20" onMouseDragged="#changeSliderBounds" prefHeight="14.0" prefWidth="274.0" />
-            <TextField fx:id="high_bound_slider_field" layoutX="250.0" layoutY="26.0" onKeyTyped="#changeLowBound" prefHeight="26.0" prefWidth="118.0" text="1000" />
-            <TextField fx:id="low_bound_slider_field" layoutX="129.0" layoutY="25.0" onKeyTyped="#changeLowBound" prefHeight="26.0" prefWidth="67.0" text="0" />
-         </children>
-      </AnchorPane>
-      <Button layoutX="510.0" layoutY="359.0" onAction="#onHelloButtonClick" text="Hello!">
+      <Button fx:id="btn1" layoutX="163.0" layoutY="335.0" onAction="#onHelloButtonClick" text="btn1">
          <graphic>
             <FontAwesomeIconView glyphName="YOUTUBE" />
          </graphic></Button>
-      <MaskPane fx:id="mask_pane" layoutX="248.0" layoutY="148.0" />
+      <AnchorPane fx:id="first_pane" layoutX="25.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <TextField fx:id="id_text" layoutX="26.0" layoutY="63.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="second_pane" layoutX="267.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <TextField fx:id="id_text" layoutX="26.0" layoutY="63.0" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="btn2" layoutX="367.0" layoutY="335.0" onAction="#onHelloButtonClick" text="btn2">
+         <graphic>
+            <FontAwesomeIconView glyphName="YOUTUBE" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

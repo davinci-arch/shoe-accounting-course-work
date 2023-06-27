@@ -75,3 +75,7 @@
     -fx-background-color: yellow;
 
 }
+
+.changed-item{
+    -fx-border-color: red;
+}

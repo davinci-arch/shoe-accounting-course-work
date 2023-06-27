@@ -12,13 +12,12 @@ import com.example.model.types.ShoesType;
 import com.example.model.types.SlippersType;
 import com.example.service.FileImageService;
 import com.example.shoeaccountingcoursework.ChangePage;
-import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,14 +25,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class NewItemController implements Initializable {
 
@@ -78,6 +79,12 @@ public class NewItemController implements Initializable {
 
     @FXML
     private AnchorPane mainPane;
+
+    @FXML
+    private AnchorPane shared_data_pane;
+
+    @FXML
+    private AnchorPane other_data_pane;
 
     @FXML
     private TextField model_field;
@@ -137,9 +144,116 @@ public class NewItemController implements Initializable {
 
     private FileImageService fileImageService = new FileImageService();
 
+    private ValidationSupport validationSupport = new ValidationSupport();
+
     @FXML
     void clearFields(MouseEvent event) {
 
+        kind_choose.getSelectionModel().clearSelection();
+        kind_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(kind_choose.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });
+        boots_fastener_choose.getSelectionModel().clearSelection();
+        boots_fastener_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(boots_fastener_choose.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });;
+        sandals_fastener_choose.getSelectionModel().clearSelection();
+        sandals_fastener_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(sandals_appointment_field.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });
+
+        category_choose.getSelectionModel().clearSelection();
+        category_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(category_choose.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });
+        season_choose.getSelectionModel().clearSelection();
+        season_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(season_choose.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });
+
+        type_choose.getSelectionModel().clearSelection();
+        type_choose.setButtonCell(new ListCell<>(){
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(type_choose.getPromptText());
+                } else {
+                    setText(item);
+                }
+            }
+        });
+
+        model_field.clear();
+        price_field.clear();
+        brend_field.clear();
+        boots_color_field.clear();
+        boots_material_field.clear();
+        boots_weight_field.clear();
+        boots_size_field.clear();
+        sandals_color_field.clear();
+        sandals_appointment_field.clear();
+        sandals_size_field.clear();
+        shoes_color_field.clear();
+        shoes_size_field.clear();
+        slippers_color_field.clear();
+        slippers_appointment_field.clear();
+        slippers_size_field.clear();
+
+
+        Image image = new Image(fileImageService.getDefaultImage().getAbsolutePath());
+        img_block.setImage(image);
+
+        clear_btn.setDisable(true);
+        type_choose.setDisable(true);
+
+        resetBorderStyle();
+
+    }
+
+    private void resetBorderStyle() {
+        shared_data_pane.getStyleClass().removeAll("changed-item");
+        other_data_pane.getStyleClass().removeAll("changed-item");
     }
 
     @FXML
@@ -159,6 +273,8 @@ public class NewItemController implements Initializable {
     void importImage(MouseEvent event) {
 
         FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(fileImageService.getAllTypesOfExtensionsImage());
 
         File initialDirectory = fileChooser.showOpenDialog(mainPane.getScene().getWindow());
 
@@ -195,7 +311,7 @@ public class NewItemController implements Initializable {
             footwear = new Shoes(ConvertorEnum.getCategory(category_choose.getValue()),
                     ConvertorEnum.getType(type_choose.getValue(), ShoesType.values()), model_field.getText(),
                     brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
-                    ConvertorEnum.getSeason(season_choose.getValue()),shoes_color_field.getText(),
+                    ConvertorEnum.getSeason(season_choose.getValue()), shoes_color_field.getText(),
                     Integer.parseInt(shoes_size_field.getText()));
 
             ShoesRepository shoesRepository = new ShoesRepository();
@@ -224,7 +340,7 @@ public class NewItemController implements Initializable {
                     ConvertorEnum.getType(type_choose.getValue(), BootsType.values()), model_field.getText(),
                     brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
                     ConvertorEnum.getSeason(season_choose.getValue()),
-                    ConvertorEnum.getFastener(boots_fastener_choose.getValue()),boots_color_field.getText(),
+                    ConvertorEnum.getFastener(boots_fastener_choose.getValue()), boots_color_field.getText(),
                     boots_material_field.getText(), Double.parseDouble(boots_weight_field.getText()),
                     Integer.parseInt(boots_size_field.getText()));
 
@@ -281,6 +397,84 @@ public class NewItemController implements Initializable {
                 hidePane(s);
             }
         });
+
+        setValidationSupport();
+
+        kind_choose.valueProperty().addListener((observableValue, s, t1) -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+        category_choose.valueProperty().addListener((observableValue, s, t1) -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+
+        season_choose.valueProperty().addListener((observableValue, s, t1) -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+
+        model_field.setOnKeyPressed(keyEvent -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+        price_field.setOnKeyPressed(keyEvent -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+        brend_field.setOnKeyPressed(keyEvent -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+        });
+
+        //TODO: ends validationFields
+
+        // if all lables is valid
+//        validationSupport.invalidProperty().addListener((observableValue, aBoolean, t1) -> {
+//            if (!t1) {
+//                save_btn.setDisable(false);
+//            }
+//        });
+    }
+
+    private void enabledClearBtn() {
+        clear_btn.setDisable(false);
+    }
+
+    private void setValidationSupport() {
+        Pattern pattern = Pattern.compile("[1-9][0-9]+");
+
+        validationSupport.registerValidator(model_field, Validator.createEmptyValidator("Введені не коректні дані"));
+        validationSupport.registerValidator(price_field, true, (control, o) ->
+                ValidationResult.fromErrorIf(control, "Повинні бути цифри", !pattern.matcher((String) o).find())
+        );
+
+//        validationSupport.registerValidator(type_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(kind_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(brend_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(season_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(category_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(boots_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(boots_material_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(boots_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(boots_weight_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(boots_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(sandals_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(slippers_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(slippers_appointment_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(slippers_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(shoes_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(shoes_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(sandals_appointment_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(sandals_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(sandals_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
+//        validationSupport.registerValidator(sandals_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
     }
 
     private void hidePane(String s) {

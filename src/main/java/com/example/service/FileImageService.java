@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.mysql.cj.log.Log;
+import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class FileImageService {
         if (!filePath.equals("file:/D:/repositories/shoe-accounting-course-work/target/classes/images/not-found.png")) {
             Path sourcePath = Path.of(filePath);
             Path newFileLocation = Path.of(URI);
-            Path newFileName = newFileLocation.resolve(objectAttributesForName+".png");
+            Path newFileName = newFileLocation.resolve(objectAttributesForName + ".png");
 
             try {
                 Files.move(sourcePath, newFileName, StandardCopyOption.REPLACE_EXISTING);
@@ -58,8 +58,14 @@ public class FileImageService {
     public boolean removeFile(String name) {
         LOG.info("Remove file by name: " + name);
         File file = new File(URI + "\\" + name + ".png");
-        LOG.info("path: " + URI+name+".png");
+        LOG.info("path: " + URI + name + ".png");
         return file.delete();
+    }
+
+    public FileChooser.ExtensionFilter getAllTypesOfExtensionsImage() {
+
+        return new FileChooser.ExtensionFilter("All Images", "*.jpg", "*.png", "*.jpeg",
+                        "*.jfif", "*.pjp", "*.pjpeg", "*.svg");
     }
 
 }
