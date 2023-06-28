@@ -46,6 +46,9 @@ public class MoreInfoController implements Initializable {
     private Button add_btn;
 
     @FXML
+    private Button backward_btn;
+
+    @FXML
     private TextField boots_color_field;
 
     @FXML
@@ -197,6 +200,34 @@ public class MoreInfoController implements Initializable {
             }
         }
 
+    }
+
+    @FXML
+    void backward(MouseEvent event) {
+
+        if (infoPane.getStyleClass().contains("changed-item")) {
+
+            Alert alert = getAlert();
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+
+                backward_btn.getScene().getWindow().hide();
+
+                try {
+                    changePage.moveToMainPage();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+
+            backward_btn.getScene().getWindow().hide();
+            try {
+                changePage.moveToMainPage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private Alert getAlert() {

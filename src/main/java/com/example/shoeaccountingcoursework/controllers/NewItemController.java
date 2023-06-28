@@ -42,6 +42,9 @@ public class NewItemController implements Initializable {
     private ComboBox<String> kind_choose;
 
     @FXML
+    private Button backward_btn;
+
+    @FXML
     private TextField boots_color_field;
 
     @FXML
@@ -143,6 +146,33 @@ public class NewItemController implements Initializable {
 
     private ValidationSupport validationSupport = new ValidationSupport();
 
+    @FXML
+    void backward(MouseEvent event) {
+
+        if (shared_data_pane.getStyleClass().contains("changed-item")) {
+
+            Alert alert = getAlert();
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+
+                backward_btn.getScene().getWindow().hide();
+
+                try {
+                    changePage.moveToMainPage();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+
+            backward_btn.getScene().getWindow().hide();
+            try {
+                changePage.moveToMainPage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     @FXML
     void clearFields(MouseEvent event) {
 
@@ -257,11 +287,8 @@ public class NewItemController implements Initializable {
     void closeWindow(MouseEvent event) {
 
         if (shared_data_pane.getStyleClass().contains("changed-item")) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
-            alert.setTitle("Закрити");
-            alert.setHeaderText("Ви впевнені що хочете закрити?");
-            alert.setContentText("Всі не збережені дані будуть втрачені!");
+            Alert alert = getAlert();
 
             if (alert.showAndWait().get() == ButtonType.OK) {
                 System.exit(200);
@@ -270,6 +297,15 @@ public class NewItemController implements Initializable {
 
             System.exit(200);
         }
+    }
+
+    private static Alert getAlert() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setTitle("Закрити");
+        alert.setHeaderText("Ви впевнені що хочете закрити?");
+        alert.setContentText("Всі не збережені дані будуть втрачені!");
+        return alert;
     }
 
     @FXML

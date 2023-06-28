@@ -149,7 +149,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <ComboBox fx:id="category_choose" disable="true" layoutX="563.0" layoutY="139.0" prefWidth="150.0" promptText="Категорія" styleClass="edit-container-lable" />
+            <ComboBox fx:id="category_choose" disable="true" layoutX="563.0" layoutY="139.0" onMouseReleased="#comboBoxIsChanged" prefWidth="150.0" promptText="Категорія" styleClass="edit-container-lable" />
             <TextField fx:id="model_field" disable="true" layoutX="317.0" layoutY="42.0" onKeyTyped="#isChangeField" styleClass="edit-container-lable" />
             <Label layoutX="247.0" layoutY="45.0" styleClass="edit-container-prompt-text" text="Модель:" />
             <TextField fx:id="brend_field" disable="true" layoutX="568.0" layoutY="39.0" onKeyTyped="#isChangeField" styleClass="edit-container-lable" />
@@ -192,7 +192,7 @@
                   <String fx:value="edit-container-btn" />
                </styleClass>
             </Button>
-            <ComboBox fx:id="type_field" disable="true" layoutX="316.0" layoutY="92.0" prefWidth="150.0" promptText="Тип" styleClass="edit-container-lable" />
+            <ComboBox fx:id="type_field" disable="true" layoutX="316.0" layoutY="92.0" onMouseReleased="#comboBoxIsChanged" prefWidth="150.0" promptText="Тип" styleClass="edit-container-lable" />
          </children>
       </AnchorPane>
    </children>

@@ -167,8 +167,26 @@ public class StorageController implements Initializable {
     @FXML
     void add_item(MouseEvent event) {
         try {
-            add_btn.getScene().getWindow().hide();
-            nextPage.moveToAddPage();
+            if (pane_selected_item.getStyleClass().contains("change-item")) {
+
+
+                Alert alert = getAlert();
+
+                if (alert.showAndWait().get() == ButtonType.OK) {
+
+                    add_btn.getScene().getWindow().hide();
+
+                    nextPage.moveToAddPage();
+                }
+
+            } else {
+
+                add_btn.getScene().getWindow().hide();
+
+                nextPage.moveToAddPage();
+            }
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -294,7 +312,7 @@ public class StorageController implements Initializable {
             bootsRepository.remove(footwearAbstract.getId());
         }
 
-        fileImageService.removeFile(footwearAbstract.getType().getType()+"_"+footwearAbstract.getId());
+        fileImageService.removeFile(footwearAbstract.getType().getType() + "_" + footwearAbstract.getId());
 
         initDataTable();
 
@@ -362,15 +380,32 @@ public class StorageController implements Initializable {
     @FXML
     void more_info(MouseEvent event) {
         try {
+
             int selectedIndex = data_view.getSelectionModel().getSelectedIndex();
             FootwearAbstract footwearAbstract = data.get(selectedIndex);
 
             SelectedItemSingleton instance = SelectedItemSingleton.getInstance();
             instance.setChoseFootwear(footwearAbstract);
 
-            more_btn.getScene().getWindow().hide();
+            if (pane_selected_item.getStyleClass().contains("change-item")) {
 
-            nextPage.moveToMoreInfoPage();
+
+                Alert alert = getAlert();
+
+                if (alert.showAndWait().get() == ButtonType.OK) {
+
+                    more_btn.getScene().getWindow().hide();
+
+                    nextPage.moveToMoreInfoPage();
+                }
+
+            } else {
+
+                more_btn.getScene().getWindow().hide();
+
+                nextPage.moveToMoreInfoPage();
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -409,11 +444,7 @@ public class StorageController implements Initializable {
 
         if (pane_selected_item.getStyleClass().contains("change-item")) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
-            alert.setTitle("Закрти");
-            alert.setHeaderText("Ви впевнені що хочете закрити?");
-            alert.setContentText("Всі не збережені дані будуть втрачені!");
+            Alert alert = getAlert();
 
             if (alert.showAndWait().get() == ButtonType.OK) {
                 System.exit(200);
@@ -424,6 +455,21 @@ public class StorageController implements Initializable {
             System.exit(200);
         }
 
+    }
+
+    private static Alert getAlert() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setTitle("Закрти");
+        alert.setHeaderText("Ви впевнені що хочете закрити?");
+        alert.setContentText("Всі не збережені дані будуть втрачені!");
+        return alert;
+    }
+
+
+    @FXML
+    void comboBoxIsChanged(MouseEvent event) {
+        isChanged();
     }
 
     @Override
@@ -446,6 +492,8 @@ public class StorageController implements Initializable {
                 setSelectedData(selectedIndex);
             }
         });
+
+
 
     }
 
