@@ -35,6 +35,26 @@ public class FileImageService {
 
     }
 
+    public void renameOldImg(String oldName, String newName) {
+        LOG.info("Rename old image - oldName: " + oldName + ", new name: " + newName);
+
+        String filePath = URI + "\\" + "%s.png";
+
+        if (!oldName.equals("not-found.png")) {
+
+            Path source = Path.of(String.format(filePath, oldName));
+
+            try {
+                Files.move(source, source.resolveSibling(newName+".png"));
+            } catch (IOException e) {
+                LOG.warn("cannot change filename from sources: " + filePath + " to: " + newName + ".png");
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+
     public File getImageByName(String fileName) {
         LOG.info("get file by name: " + fileName);
 

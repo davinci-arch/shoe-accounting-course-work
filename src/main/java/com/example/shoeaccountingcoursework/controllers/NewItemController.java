@@ -15,10 +15,7 @@ import com.example.shoeaccountingcoursework.ChangePage;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -258,7 +255,21 @@ public class NewItemController implements Initializable {
 
     @FXML
     void closeWindow(MouseEvent event) {
-        System.exit(200);
+
+        if (shared_data_pane.getStyleClass().contains("changed-item")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Закрити");
+            alert.setHeaderText("Ви впевнені що хочете закрити?");
+            alert.setContentText("Всі не збережені дані будуть втрачені!");
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                System.exit(200);
+            }
+        } else {
+
+            System.exit(200);
+        }
     }
 
     @FXML

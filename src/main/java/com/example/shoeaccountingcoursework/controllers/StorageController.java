@@ -6,6 +6,7 @@ import com.example.dao.repository.model.BootsRepository;
 import com.example.dao.repository.model.SandalsRepository;
 import com.example.dao.repository.model.ShoesRepository;
 import com.example.dao.repository.model.SlippersRepository;
+import com.example.global.SelectedItemSingleton;
 import com.example.model.*;
 import com.example.model.types.*;
 import com.example.service.FileImageService;
@@ -39,6 +40,7 @@ import java.util.function.Predicate;
 
 public class StorageController implements Initializable {
 
+    // TODO: кнопка Save не відкривається якщо змінюються лише вони
     @FXML
     private Button add_btn;
 
@@ -360,6 +362,14 @@ public class StorageController implements Initializable {
     @FXML
     void more_info(MouseEvent event) {
         try {
+            int selectedIndex = data_view.getSelectionModel().getSelectedIndex();
+            FootwearAbstract footwearAbstract = data.get(selectedIndex);
+
+            SelectedItemSingleton instance = SelectedItemSingleton.getInstance();
+            instance.setChoseFootwear(footwearAbstract);
+
+            more_btn.getScene().getWindow().hide();
+
             nextPage.moveToMoreInfoPage();
         } catch (IOException e) {
             throw new RuntimeException(e);
