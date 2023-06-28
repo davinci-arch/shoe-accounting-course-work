@@ -40,7 +40,6 @@ import java.util.function.Predicate;
 
 public class StorageController implements Initializable {
 
-    // TODO: кнопка Save не відкривається якщо змінюються лише вони
     @FXML
     private Button add_btn;
 

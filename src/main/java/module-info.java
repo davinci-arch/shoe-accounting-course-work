@@ -2,6 +2,7 @@ module com.example.shoeaccountingcoursework {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.controlsfx.controls;
+    requires javafx.graphics;
 
     requires org.apache.logging.log4j.slf4j;
     requires org.apache.logging.log4j.core;

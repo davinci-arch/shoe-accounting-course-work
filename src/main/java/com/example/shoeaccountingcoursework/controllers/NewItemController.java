@@ -22,16 +22,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.controlsfx.validation.ValidationResult;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class NewItemController implements Initializable {
 
@@ -144,7 +140,6 @@ public class NewItemController implements Initializable {
 
     private FileImageService fileImageService = new FileImageService();
 
-    private ValidationSupport validationSupport = new ValidationSupport();
 
     @FXML
     void backward(MouseEvent event) {
@@ -173,11 +168,12 @@ public class NewItemController implements Initializable {
             }
         }
     }
+
     @FXML
     void clearFields(MouseEvent event) {
 
         kind_choose.getSelectionModel().clearSelection();
-        kind_choose.setButtonCell(new ListCell<>(){
+        kind_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -189,7 +185,7 @@ public class NewItemController implements Initializable {
             }
         });
         boots_fastener_choose.getSelectionModel().clearSelection();
-        boots_fastener_choose.setButtonCell(new ListCell<>(){
+        boots_fastener_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -199,9 +195,10 @@ public class NewItemController implements Initializable {
                     setText(item);
                 }
             }
-        });;
+        });
+        ;
         sandals_fastener_choose.getSelectionModel().clearSelection();
-        sandals_fastener_choose.setButtonCell(new ListCell<>(){
+        sandals_fastener_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -214,7 +211,7 @@ public class NewItemController implements Initializable {
         });
 
         category_choose.getSelectionModel().clearSelection();
-        category_choose.setButtonCell(new ListCell<>(){
+        category_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -226,7 +223,7 @@ public class NewItemController implements Initializable {
             }
         });
         season_choose.getSelectionModel().clearSelection();
-        season_choose.setButtonCell(new ListCell<>(){
+        season_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -239,7 +236,7 @@ public class NewItemController implements Initializable {
         });
 
         type_choose.getSelectionModel().clearSelection();
-        type_choose.setButtonCell(new ListCell<>(){
+        type_choose.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -274,7 +271,9 @@ public class NewItemController implements Initializable {
         clear_btn.setDisable(true);
         type_choose.setDisable(true);
 
-        resetBorderStyle();
+        save_btn.setDisable(true);
+
+
 
     }
 
@@ -433,6 +432,10 @@ public class NewItemController implements Initializable {
 
             type_choose.setDisable(false);
 
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+
             if (t1 != null) {
                 type_choose.getItems().clear();
                 type_choose.setPromptText("Тип");
@@ -445,84 +448,52 @@ public class NewItemController implements Initializable {
             }
         });
 
-        setValidationSupport();
-
-        kind_choose.valueProperty().addListener((observableValue, s, t1) -> {
-            shared_data_pane.getStyleClass().add("changed-item");
-            other_data_pane.getStyleClass().add("changed-item");
-            enabledClearBtn();
-        });
         category_choose.valueProperty().addListener((observableValue, s, t1) -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
             enabledClearBtn();
+            enabledSaveBtn();
         });
 
         season_choose.valueProperty().addListener((observableValue, s, t1) -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
             enabledClearBtn();
+            enabledSaveBtn();
+
         });
 
         model_field.setOnKeyPressed(keyEvent -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
             enabledClearBtn();
+            enabledSaveBtn();
+
         });
         price_field.setOnKeyPressed(keyEvent -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
             enabledClearBtn();
+            enabledSaveBtn();
+
         });
         brend_field.setOnKeyPressed(keyEvent -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
             enabledClearBtn();
+
         });
 
-        //TODO: ends validationFields
 
-        // if all lables is valid
-//        validationSupport.invalidProperty().addListener((observableValue, aBoolean, t1) -> {
-//            if (!t1) {
-//                save_btn.setDisable(false);
-//            }
-//        });
     }
 
+    private void enabledSaveBtn() {
+        save_btn.setDisable(false);
+    }
     private void enabledClearBtn() {
         clear_btn.setDisable(false);
     }
 
-    private void setValidationSupport() {
-        Pattern pattern = Pattern.compile("[1-9][0-9]+");
-
-        validationSupport.registerValidator(model_field, Validator.createEmptyValidator("Введені не коректні дані"));
-        validationSupport.registerValidator(price_field, true, (control, o) ->
-                ValidationResult.fromErrorIf(control, "Повинні бути цифри", !pattern.matcher((String) o).find())
-        );
-
-//        validationSupport.registerValidator(type_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(kind_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(brend_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(season_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(category_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(boots_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(boots_material_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(boots_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(boots_weight_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(boots_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(sandals_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(slippers_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(slippers_appointment_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(slippers_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(shoes_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(shoes_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(sandals_appointment_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(sandals_fastener_choose, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(sandals_color_field, Validator.createEmptyValidator("Введені не коректні дані"));
-//        validationSupport.registerValidator(sandals_size_field, Validator.createEmptyValidator("Введені не коректні дані"));
-    }
 
     private void hidePane(String s) {
 
@@ -544,13 +515,16 @@ public class NewItemController implements Initializable {
 
             shoes_pane.setVisible(true);
 
+
         } else if (kind.equals("Босоніжки")) {
 
             sandals_pane.setVisible(true);
 
+
         } else if (kind.equals("Чоботи")) {
 
             boots_pane.setVisible(true);
+
         }
 
     }
