@@ -11,6 +11,7 @@ import com.example.model.*;
 import com.example.model.types.*;
 import com.example.service.FileImageService;
 import com.example.shoeaccountingcoursework.ChangePage;
+import com.example.validation.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -333,6 +334,9 @@ public class MoreInfoController implements Initializable {
     @FXML
     void saveItem(MouseEvent event) {
 
+        if (!validateFields()) {
+            throw new RuntimeException("Invalid fields");
+        }
         choseItem.setCategory(ConvertorEnum.getCategory(category_choose.getValue()));
         choseItem.setPrice(BigDecimal.valueOf(Long.parseLong(price_field.getText())));
         choseItem.setBrand(brend_field.getText());
@@ -393,6 +397,39 @@ public class MoreInfoController implements Initializable {
 
     }
 
+    private boolean validateFields() {
+
+        Validation validation = new Validation();
+
+        boolean result = validation.validateIntegerLength(price_field, 5) &&
+                validation.validateStringFieldNameLength(brend_field, 20) &&
+                validation.validateFieldModel(model_field, 20) &&
+                validation.validateCheckBoxSelected(category_choose) &&
+                validation.validateCheckBoxSelected(season_choose) &&
+                validation.validateCheckBoxSelected(type_choose);
+
+        if (choseItem instanceof Slippers) {
+            result = result && validation.validateStringFieldNameLength(slippers_color_field, 15) &&
+                    validation.validateIntegerLength(slippers_size_field, 2) &&
+                    validation.validateStringFieldNameLength(slippers_appointment_field, 20);
+        } else if (choseItem instanceof Shoes) {
+            result = result && validation.validateStringFieldNameLength(shoes_color_field, 15) &&
+                    validation.validateIntegerLength(shoes_size_field, 2);
+        } else if (choseItem instanceof Sandals) {
+            result = result && validation.validateStringFieldNameLength(sandals_color_field, 15) &&
+                    validation.validateIntegerLength(sandals_size_field, 2) &&
+                    validation.validateStringFieldNameLength(sandals_appointment_field, 20) &&
+                    validation.validateCheckBoxSelected(sandals_fastener_choose);
+        } else if (choseItem instanceof Boots) {
+            result = result && validation.validateStringFieldNameLength(boots_color_field, 15) &&
+                    validation.validateIntegerLength(boots_size_field, 2) &&
+                    validation.validateDoubleValue(boots_weight_field) &&
+                    validation.validateStringFieldNameLength(boots_material_field, 20) &&
+                    validation.validateCheckBoxSelected(boots_fastener_choose);
+        }
+
+        return result;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -527,7 +564,7 @@ public class MoreInfoController implements Initializable {
             sandals_appointment_field.setText(((Sandals) choseItem).getAppointment());
             sandals_color_field.setText(((Sandals) choseItem).getColor());
             sandals_size_field.setText(String.valueOf(((Sandals) choseItem).getSize()));
-
+            sandals_fastener_choose.getSelectionModel().select(((Sandals) choseItem).getFastener().getTypeFastener());
 
         } else if (choseItem instanceof Shoes) {
 
@@ -542,6 +579,8 @@ public class MoreInfoController implements Initializable {
             boots_size_field.setText(String.valueOf(((Boots) choseItem).getSize()));
             boots_material_field.setText(((Boots) choseItem).getMaterial());
             boots_weight_field.setText(String.valueOf(((Boots) choseItem).getWeight()));
+            boots_fastener_choose.getSelectionModel().select(((Boots) choseItem).getFaster().getTypeFastener());
+
         }
 
     }
@@ -551,6 +590,8 @@ public class MoreInfoController implements Initializable {
             boots_fastener_choose.getItems().add(fastener.getTypeFastener());
             sandals_fastener_choose.getItems().add(fastener.getTypeFastener());
         }
+
+
 
     }
 

@@ -143,11 +143,11 @@ public class SandalsRepository implements Repository {
 
             if (footwear instanceof Sandals) {
 
-                preparedStatement.setString(8, ((Sandals) footwear).getFastener().getTypeFastener());
-                preparedStatement.setString(8, ((Sandals) footwear).getColor());
+                preparedStatement.setString(6, ((Sandals) footwear).getFastener().getTypeFastener());
+                preparedStatement.setString(7, ((Sandals) footwear).getColor());
                 preparedStatement.setString(8, ((Sandals) footwear).getAppointment());
-                preparedStatement.setInt(7, ((Sandals) footwear).getSize());
-                preparedStatement.setString(6, footwear.getSeason().getSeasonName());
+                preparedStatement.setInt(9, ((Sandals) footwear).getSize());
+                preparedStatement.setString(10, footwear.getSeason().getSeasonName());
 
             }
 

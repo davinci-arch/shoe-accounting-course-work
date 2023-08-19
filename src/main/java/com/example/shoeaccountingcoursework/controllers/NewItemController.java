@@ -12,6 +12,7 @@ import com.example.model.types.ShoesType;
 import com.example.model.types.SlippersType;
 import com.example.service.FileImageService;
 import com.example.shoeaccountingcoursework.ChangePage;
+import com.example.validation.Validation;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -336,6 +337,10 @@ public class NewItemController implements Initializable {
     @FXML
     void saveItem(MouseEvent event) {
 
+        if (!validationFields()) {
+            throw new RuntimeException("Invalid validation");
+        }
+
         FootwearAbstract footwear = null;
 
         if (kind_choose.getValue().equals("Тапочки")) {
@@ -346,6 +351,7 @@ public class NewItemController implements Initializable {
                     ConvertorEnum.getSeason(season_choose.getValue()), slippers_color_field.getText(),
                     slippers_appointment_field.getText(), Integer.parseInt(slippers_size_field.getText()));
 
+            footwear.recalculatePrice();
             SlippersRepository slippersRepository = new SlippersRepository();
             slippersRepository.save(footwear);
 
@@ -359,6 +365,7 @@ public class NewItemController implements Initializable {
                     brend_field.getText(), BigDecimal.valueOf(Long.parseLong(price_field.getText())),
                     ConvertorEnum.getSeason(season_choose.getValue()), shoes_color_field.getText(),
                     Integer.parseInt(shoes_size_field.getText()));
+            footwear.recalculatePrice();
 
             ShoesRepository shoesRepository = new ShoesRepository();
             shoesRepository.save(footwear);
@@ -373,6 +380,7 @@ public class NewItemController implements Initializable {
                     ConvertorEnum.getSeason(season_choose.getValue()),
                     ConvertorEnum.getFastener(sandals_fastener_choose.getValue()), sandals_color_field.getText(),
                     sandals_appointment_field.getText(), Integer.parseInt(sandals_size_field.getText()));
+            footwear.recalculatePrice();
 
             SandalsRepository sandalsRepository = new SandalsRepository();
             sandalsRepository.save(footwear);
@@ -389,6 +397,7 @@ public class NewItemController implements Initializable {
                     ConvertorEnum.getFastener(boots_fastener_choose.getValue()), boots_color_field.getText(),
                     boots_material_field.getText(), Double.parseDouble(boots_weight_field.getText()),
                     Integer.parseInt(boots_size_field.getText()));
+            footwear.recalculatePrice();
 
             BootsRepository bootsRepository = new BootsRepository();
             bootsRepository.save(footwear);
@@ -448,6 +457,13 @@ public class NewItemController implements Initializable {
             }
         });
 
+        kind_choose.valueProperty().addListener((observableValue, s, t1) -> {
+            shared_data_pane.getStyleClass().add("changed-item");
+            other_data_pane.getStyleClass().add("changed-item");
+            enabledClearBtn();
+            enabledSaveBtn();
+        });
+
         category_choose.valueProperty().addListener((observableValue, s, t1) -> {
             shared_data_pane.getStyleClass().add("changed-item");
             other_data_pane.getStyleClass().add("changed-item");
@@ -485,6 +501,46 @@ public class NewItemController implements Initializable {
         });
 
 
+    }
+
+    private boolean validationFields() {
+        Validation validation = new Validation();
+
+        boolean result = validation.validateIntegerLength(price_field, 6) &&
+                validation.validateStringFieldNameLength(brend_field, 20) &&
+                validation.validateFieldModel(model_field, 20) &&
+                validation.validateCheckBoxSelected(category_choose) &&
+                validation.validateCheckBoxSelected(type_choose) &&
+                validation.validateCheckBoxSelected(kind_choose) &&
+                validation.validateCheckBoxSelected(season_choose);
+
+        if (kind_choose.getValue().equals("Тапочки")) {
+
+            result = result && validation.validateStringFieldNameLength(slippers_color_field, 15) &&
+                    validation.validateIntegerLength(slippers_size_field, 2) &&
+                    validation.validateStringFieldNameLength(slippers_appointment_field, 20);
+
+        } else if (kind_choose.getValue().equals("Туфлі")) {
+
+            result = result && validation.validateStringFieldNameLength(shoes_color_field, 15) &&
+                    validation.validateIntegerLength(shoes_size_field, 2);
+
+        } else if (kind_choose.getValue().equals("Босоніжки")) {
+
+            result = result && validation.validateStringFieldNameLength(sandals_color_field, 15) &&
+                    validation.validateIntegerLength(sandals_size_field, 2) &&
+                    validation.validateStringFieldNameLength(sandals_appointment_field, 20) &&
+                    validation.validateCheckBoxSelected(sandals_fastener_choose);
+        } else if (kind_choose.getValue().equals("Чоботи")) {
+
+            result = result && validation.validateStringFieldNameLength(boots_color_field, 15) &&
+                    validation.validateIntegerLength(boots_size_field, 2) &&
+                    validation.validateIntegerLength(boots_weight_field, 3) &&
+                    validation.validateStringFieldNameLength(boots_material_field, 20) &&
+                    validation.validateCheckBoxSelected(boots_fastener_choose);
+        }
+
+        return result;
     }
 
     private void enabledSaveBtn() {

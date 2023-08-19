@@ -6,7 +6,7 @@ import com.example.model.types.TypeFootwear;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Slippers extends FootwearAbstract{
+public class Slippers extends FootwearAbstract {
 
     private String color;
 
@@ -31,7 +31,6 @@ public class Slippers extends FootwearAbstract{
         this.appointment = appointment;
         this.size = size;
     }
-
 
 
     public String getColor() {
@@ -66,6 +65,43 @@ public class Slippers extends FootwearAbstract{
                 ", appointment='" + appointment + '\'' +
                 ", size=" + size +
                 '}';
+    }
+
+    @Override
+    public void recalculatePrice() {
+
+        BigDecimal result = getPrice();
+
+        switch (getType().getType()) {
+            case "Кімнатні" -> result = result.add(BigDecimal.valueOf(100));
+            case "Пінетки" -> result = result.add(BigDecimal.valueOf(250));
+            case "Теплі тапочки" -> result = result.add(BigDecimal.valueOf(340));
+            case "Закритого типу" -> result = result.add(BigDecimal.valueOf(50));
+            case "Тапочки-мокасини" -> result = result.add(BigDecimal.valueOf(99));
+        }
+
+        switch (getCategory().getCategory()) {
+            case "Жіноче" -> result = result.add(BigDecimal.valueOf(144));
+            case "Дитяче" -> result = result.subtract(BigDecimal.valueOf(getPrice().longValue()/2));
+            case "Унісекс" -> result = result.add(BigDecimal.valueOf(288));
+            case "Ортопедичне" -> result = result.add(BigDecimal.valueOf(500));
+        }
+
+        switch (getBrand()) {
+            case "Manolo Blahnik" -> result = result.add(BigDecimal.valueOf(25000));
+            case "Gucci" -> result = result.add(BigDecimal.valueOf(15000));
+            case "Balenciaga" -> result = result.add(BigDecimal.valueOf(5000));
+            case "Buscemi" -> result = result.add(BigDecimal.valueOf(7000));
+        }
+
+        switch (getAppointment()) {
+            case "Повсякденне" -> result = result.add(BigDecimal.valueOf(30));
+            case "Спортивне" -> result = result.add(BigDecimal.valueOf(100));
+            case "Вечірнє" -> result = result.add(BigDecimal.valueOf(200));
+            case "Робоче" -> result = result.add(BigDecimal.valueOf(15));
+        }
+
+        setPrice(result);
     }
 
     @Override

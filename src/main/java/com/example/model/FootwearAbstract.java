@@ -93,6 +93,7 @@ public abstract class FootwearAbstract implements Serializable {
         this.season = season;
     }
 
+    abstract public void recalculatePrice();
 
     @Override
     public boolean equals(Object o) {

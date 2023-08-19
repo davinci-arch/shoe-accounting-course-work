@@ -20,6 +20,13 @@
             <artifactId>javafx-controls</artifactId>
             <version>17.0.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.32</version>
+        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -54,10 +61,24 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
+            <groupId>no.tornado</groupId>
+            <artifactId>tornadofx</artifactId>
+            <version>1.7.20</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.22.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx-fontawesome -->
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-fontawesome</artifactId>
+            <version>4.7.0-9.1.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -83,43 +104,54 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.22.0</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/footwears</url>
+                    <username>root</username>
+                    <password>Qwertyuiop1234567890</password>
+                    <changeLogFile>src/main/resources/migration/changelogs/changeset-main.sql</changeLogFile>
+                </configuration>
+            </plugin>
 
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>3.2.0</version>
-            <executions>
-                <execution>
-                    <id>auto-clean</id>
-                    <phase>initialize</phase>
-                    <goals>
-                        <goal>clean</goal>
-                    </goals>
-                </execution>
-            </executions>
-          </plugin>
-           <!-- <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
-                        &lt;!&ndash; Default configuration for running with: mvn clean javafx:run &ndash;&gt;
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>
-                                com.example.shoeaccountingcoursework/com.example.shoeaccountingcoursework.HelloApplication
-                            </mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
-                        </configuration>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
+            <!-- <plugin>
+                 <groupId>org.openjfx</groupId>
+                 <artifactId>javafx-maven-plugin</artifactId>
+                 <version>0.0.8</version>
+                 <executions>
+                     <execution>
+                         &lt;!&ndash; Default configuration for running with: mvn clean javafx:run &ndash;&gt;
+                         <id>default-cli</id>
+                         <configuration>
+                             <mainClass>
+                                 com.example.shoeaccountingcoursework/com.example.shoeaccountingcoursework.HelloApplication
+                             </mainClass>
+                             <launcher>app</launcher>
+                             <jlinkZipName>app</jlinkZipName>
+                             <jlinkImageName>app</jlinkImageName>
+                             <noManPages>true</noManPages>
+                             <stripDebug>true</stripDebug>
+                             <noHeaderFiles>true</noHeaderFiles>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>-->
         </plugins>
     </build>
 </project>

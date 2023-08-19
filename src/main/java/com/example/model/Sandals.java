@@ -69,6 +69,50 @@ public class Sandals extends FootwearAbstract{
         this.size = size;
     }
 
+    @Override
+    public void recalculatePrice() {
+
+        BigDecimal result = getPrice();
+
+        switch (getType().getType()) {
+            case "М'юлі" -> result = result.add(BigDecimal.valueOf(44));
+            case "Сандалі" -> result = result.add(BigDecimal.valueOf(33));
+            case "В'єтнамки" -> result = result.add(BigDecimal.valueOf(15));
+            case "Сланці" -> result = result.add(BigDecimal.valueOf(50));
+            case "Біркеншток" -> result = result.add(BigDecimal.valueOf(99));
+        }
+
+        switch (getCategory().getCategory()) {
+            case "Жіноче" -> result = result.add(BigDecimal.valueOf(144));
+            case "Дитяче" -> result = result.subtract(BigDecimal.valueOf(getPrice().longValue()/2));
+            case "Унісекс" -> result = result.add(BigDecimal.valueOf(288));
+            case "Ортопедичне" -> result = result.add(BigDecimal.valueOf(500));
+        }
+
+        switch (getBrand()) {
+            case "Manolo Blahnik" -> result = result.add(BigDecimal.valueOf(25000));
+            case "Gucci" -> result = result.add(BigDecimal.valueOf(15000));
+            case "Balenciaga" -> result = result.add(BigDecimal.valueOf(5000));
+            case "Buscemi" -> result = result.add(BigDecimal.valueOf(7000));
+        }
+
+        switch (getFastener().getTypeFastener()) {
+            case "Липучка" -> result = result.add(BigDecimal.valueOf(10));
+            case "Сліпони" -> result = result.add(BigDecimal.valueOf(15));
+            case "Блискавка" -> result = result.add(BigDecimal.valueOf(20));
+            case "Пряжка" -> result = result.add(BigDecimal.valueOf(25));
+            case "Шнурки" -> result = result.add(BigDecimal.valueOf(30));
+        }
+
+        switch (getAppointment()) {
+            case "Повсякденне" -> result = result.add(BigDecimal.valueOf(30));
+            case "Спортивне" -> result = result.add(BigDecimal.valueOf(100));
+            case "Вечірнє" -> result = result.add(BigDecimal.valueOf(200));
+            case "Робоче" -> result = result.add(BigDecimal.valueOf(15));
+        }
+
+        setPrice(result);
+    }
 
     @Override
     public String toString() {

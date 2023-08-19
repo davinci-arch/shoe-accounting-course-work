@@ -82,6 +82,50 @@ public class Boots extends FootwearAbstract{
 
 
     @Override
+    public void recalculatePrice() {
+
+        BigDecimal result = getPrice();
+
+
+        switch (getType().getType()) {
+            case "Ботфорти" -> result = result.add(BigDecimal.valueOf(220));
+            case "Чоботи до колін" -> result = result.add(BigDecimal.valueOf(250));
+            case "Мисливські чоботи" -> result = result.add(BigDecimal.valueOf(300));
+            case "Ковбойські чоботи" -> result = result.add(BigDecimal.valueOf(150));
+            case "Чоботи-гладіатори" -> result = result.add(BigDecimal.valueOf(400));
+            case "Угіі" -> result = result.add(BigDecimal.valueOf(100));
+        }
+
+        switch (getCategory().getCategory()) {
+            case "Жіноче" -> result = result.add(BigDecimal.valueOf(144));
+            case "Дитяче" -> result = result.subtract(BigDecimal.valueOf(getPrice().longValue()/2));
+            case "Унісекс" -> result = result.add(BigDecimal.valueOf(288));
+            case "Ортопедичне" -> result = result.add(BigDecimal.valueOf(500));
+        }
+
+        switch (getBrand()) {
+            case "Manolo Blahnik" -> result = result.add(BigDecimal.valueOf(25000));
+            case "Gucci" -> result = result.add(BigDecimal.valueOf(15000));
+            case "Balenciaga" -> result = result.add(BigDecimal.valueOf(5000));
+            case "Buscemi" -> result = result.add(BigDecimal.valueOf(7000));
+        }
+
+        switch (getFaster().getTypeFastener()) {
+            case "Липучка" -> result = result.add(BigDecimal.valueOf(10));
+            case "Сліпони" -> result = result.add(BigDecimal.valueOf(15));
+            case "Блискавка" -> result = result.add(BigDecimal.valueOf(20));
+            case "Пряжка" -> result = result.add(BigDecimal.valueOf(25));
+            case "Шнурки" -> result = result.add(BigDecimal.valueOf(30));
+        }
+
+        if (weight > 720) {
+            result = result.add(BigDecimal.valueOf(150));
+        }
+
+       setPrice(result);
+    }
+
+    @Override
     public String toString() {
         return "Boots{" +
                 "faster=" + faster +

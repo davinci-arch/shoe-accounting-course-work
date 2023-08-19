@@ -3,7 +3,8 @@ package com.example.model;
 import java.io.Serializable;
 
 public enum Fastener implements Serializable {
-    VELCRO("Липучка"), SLIPON("Сліпони"), LIGHTNING("Блискавка"), MORSE("Пряжка"), LACES("Шнурки");
+    VELCRO("Липучка"), SLIPON("Сліпони"),
+    LIGHTNING("Блискавка"), MORSE("Пряжка"), LACES("Шнурки");
 
     private final String typeFastener;
 

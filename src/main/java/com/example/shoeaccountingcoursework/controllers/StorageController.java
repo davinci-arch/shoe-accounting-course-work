@@ -11,6 +11,7 @@ import com.example.model.*;
 import com.example.model.types.*;
 import com.example.service.FileImageService;
 import com.example.shoeaccountingcoursework.ChangePage;
+import com.example.validation.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -325,6 +326,10 @@ public class StorageController implements Initializable {
     @FXML
     void saveSelectedItem(MouseEvent event) {
 
+        if (!validationFields()) {
+            throw new RuntimeException("Invalid fields");
+        }
+
         int selectedItem = data_view.getSelectionModel().getFocusedIndex();
 
 
@@ -355,6 +360,8 @@ public class StorageController implements Initializable {
             footwearAbstract.setType(ConvertorEnum.getType(type_field.getValue(), BootsType.values()));
             bootsRepository.update(footwearAbstract);
         }
+
+
 
         fileImageService.save(img_block.getImage().getUrl(),
                 footwearAbstract.getType().toString() + "_" + footwearAbstract.getId());
@@ -494,6 +501,19 @@ public class StorageController implements Initializable {
 
 
 
+    }
+
+    private boolean validationFields() {
+        Validation validation = new Validation();
+
+        boolean result = validation.validateIntegerLength(price_field, 6) &&
+                validation.validateStringFieldNameLength(brend_field, 20) &&
+                validation.validateFieldModel(model_field, 20) &&
+                validation.validateCheckBoxSelected(category_choose) &&
+                validation.validateCheckBoxSelected(type_field);
+
+
+        return result;
     }
 
     private void isChanged() {
@@ -703,7 +723,7 @@ public class StorageController implements Initializable {
 
 
         private Predicate<Integer> price = (i) -> true;
-        private Predicate<String> stringPredicate = (i) -> true;
+        private Predicate<String> rangePredicate = (i) -> true;
 
         private Map<String, Predicate<String>> checkbox = new HashMap<>();
 
@@ -715,7 +735,7 @@ public class StorageController implements Initializable {
 
         public void addSearchText(String searchField) {
 
-            stringPredicate = (item) -> {
+            rangePredicate = (item) -> {
                 int i = 0;
 
                 while (i < item.length() && i < searchField.length()) {
@@ -749,7 +769,7 @@ public class StorageController implements Initializable {
 
             Predicate<String> checkBoxPredicates = checkbox.values().stream().reduce(Predicate::or).orElse((i) -> true);
 
-            return price.test(priceBounds) && stringPredicate.test(text) && checkBoxPredicates.test(category);
+            return price.test(priceBounds) && rangePredicate.test(text) && checkBoxPredicates.test(category);
         }
 
 

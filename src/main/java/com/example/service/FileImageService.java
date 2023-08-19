@@ -26,7 +26,7 @@ public class FileImageService {
             Path newFileName = newFileLocation.resolve(objectAttributesForName + ".png");
 
             try {
-                Files.move(sourcePath, newFileName, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(sourcePath, newFileName, StandardCopyOption.REPLACE_EXISTING);
                 LOG.info("Path to save: " + newFileName.toAbsolutePath());
             } catch (IOException e) {
                 LOG.warn("Не вдалося перемістити файл");

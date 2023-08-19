@@ -6,7 +6,6 @@ import com.example.dao.repository.ConvertorEnum;
 import com.example.model.Boots;
 import com.example.model.Category;
 import com.example.model.FootwearAbstract;
-import com.example.model.Sandals;
 import com.example.model.types.BootsType;
 import com.example.model.types.TypeFootwear;
 import org.slf4j.Logger;
