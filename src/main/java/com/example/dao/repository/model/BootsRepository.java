@@ -185,7 +185,7 @@ public class BootsRepository implements Repository {
 
     @Override
     public void update(FootwearAbstract footwear) {
-        String query = "update sandals " +
+        String query = "update boots " +
                 "set category=?, type=?, model=?, brand=?, price=?, fastener=?, color=?, material=?, weight=?, size=?, seasons=?" +
                 " where id_footwear = ?";
 

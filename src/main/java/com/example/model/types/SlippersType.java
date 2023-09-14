@@ -4,7 +4,7 @@ package com.example.model.types;
 public enum SlippersType implements TypeFootwear{
 
     BEDROOM("Кімнатні"), PINTECAS("Пінетки"),
-    WARM_SLIPPERS("Теплі тапочки"), CLOSED_SLIPPERS("Закритого типу"),
+    WARM_SLIPPERS("Теплі капці"), CLOSED_SLIPPERS("Закритого типу"),
     MOCCASINS_SLIPPERS("Тапочки-мокасини");
 
     private String type;
