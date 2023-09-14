@@ -388,7 +388,7 @@ public class StorageController implements Initializable {
         try {
 
             int selectedIndex = data_view.getSelectionModel().getSelectedIndex();
-            FootwearAbstract footwearAbstract = data.get(selectedIndex);
+            FootwearAbstract footwearAbstract = data_view.getItems().get(selectedIndex);
 
             SelectedItemSingleton instance = SelectedItemSingleton.getInstance();
             instance.setChoseFootwear(footwearAbstract);
